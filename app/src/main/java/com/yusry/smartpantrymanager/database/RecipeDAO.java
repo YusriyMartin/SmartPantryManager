@@ -37,6 +37,9 @@ public class RecipeDAO {
         // We're putting the ingredient list (formatted as "ingredientName:quantity:unit") into the container
         values.put("ingredient_list", recipe.getIngredientList());
 
+        // We're putting the cooking method into the container
+        values.put("method", recipe.getMethod());
+
         // We're inserting the recipe into the "recipes" table and getting back the row ID
         // If insertion fails, it returns -1
         long recipeId = db.insert("recipes", null, values);
@@ -70,15 +73,18 @@ public class RecipeDAO {
                 int nameIndex = cursor.getColumnIndex("recipe_name");
                 int descriptionIndex = cursor.getColumnIndex("description");
                 int ingredientListIndex = cursor.getColumnIndex("ingredient_list");
+                int methodIndex = cursor.getColumnIndex("method");
 
                 // We're extracting the actual values from the current row using the indexes
                 int id = cursor.getInt(idIndex);
                 String name = cursor.getString(nameIndex);
                 String description = cursor.getString(descriptionIndex);
                 String ingredientList = cursor.getString(ingredientListIndex);
+                String method = cursor.getString(methodIndex);
 
                 // We're creating a new Recipes object with the data we extracted
-                Recipes recipe = new Recipes(id, name, description, ingredientList);
+                // We're passing all 5 required parameters including method
+                Recipes recipe = new Recipes(id, name, description, ingredientList, method);
 
                 // We're adding this recipe to our list
                 recipesList.add(recipe);
@@ -123,15 +129,18 @@ public class RecipeDAO {
             int nameIndex = cursor.getColumnIndex("recipe_name");
             int descriptionIndex = cursor.getColumnIndex("description");
             int ingredientListIndex = cursor.getColumnIndex("ingredient_list");
+            int methodIndex = cursor.getColumnIndex("method");
 
             // We're extracting the values from the row
             int id = cursor.getInt(idIndex);
             String name = cursor.getString(nameIndex);
             String description = cursor.getString(descriptionIndex);
             String ingredientList = cursor.getString(ingredientListIndex);
+            String method = cursor.getString(methodIndex);
 
             // We're creating a new Recipes object with the data we found
-            recipe = new Recipes(id, name, description, ingredientList);
+            // We're passing all 5 required parameters including method
+            recipe = new Recipes(id, name, description, ingredientList, method);
         }
 
         // We're closing the cursor to free up memory
@@ -162,6 +171,9 @@ public class RecipeDAO {
 
         // We're putting the updated ingredient list into the container
         values.put("ingredient_list", recipe.getIngredientList());
+
+        // We're putting the updated method into the container
+        values.put("method", recipe.getMethod());
 
         // We're setting up a WHERE clause to update only the recipe with this specific ID
         String selection = "recipe_id = ?";

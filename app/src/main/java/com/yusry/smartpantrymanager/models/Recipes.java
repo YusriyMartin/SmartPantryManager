@@ -2,7 +2,7 @@ package com.yusry.smartpantrymanager.models;
 
 /**
  * The Recipe class represents a single recipe that the user can prepare.
- * Each recipe has an ID, name, description, and a list of required ingredients.
+ * Each recipe has an ID, name, description, a list of required ingredients, and cooking method.
  * This model is the foundation for storing and managing recipes in our database.
  */
 public class Recipes {
@@ -13,13 +13,17 @@ public class Recipes {
     // The name of the recipe (e.g., "Pasta Carbonara", "Caesar Salad")
     private String name;
 
-    // A detailed description of what the recipe is and how to make it
+    // A detailed description of what the recipe is
     private String description;
 
     // This stores the ingredients needed as a comma-separated string
     // For example: "tomato:2:cups,garlic:3:cloves,olive oil:2:tablespoons"
     // Format is: ingredientName:quantity:unit, ingredientName:quantity:unit, etc.
     private String ingredientList;
+
+    // The cooking method/instructions for preparing this recipe
+    // For example: "1. Heat olive oil in a pan\n2. Add garlic and fry until golden\n3. Add tomatoes..."
+    private String method;
 
     /**
      * Empty constructor - needed by Android and SQLite to create Recipe objects
@@ -32,20 +36,22 @@ public class Recipes {
      * Full constructor - allows us to create a Recipe with all its details at once
      * This is useful when loading recipes from the database
      */
-    public Recipes(int id, String name, String description, String ingredientList) {
+    public Recipes(int id, String name, String description, String ingredientList, String method) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.ingredientList = ingredientList;
+        this.method = method;
     }
 
     /**
      * Constructor without ID - used when adding a NEW recipe (database will auto-generate ID)
      */
-    public Recipes(String name, String description, String ingredientList) {
+    public Recipes(String name, String description, String ingredientList, String method) {
         this.name = name;
         this.description = description;
         this.ingredientList = ingredientList;
+        this.method = method;
     }
 
     // ========== GETTERS & SETTERS ==========
@@ -95,6 +101,7 @@ public class Recipes {
 
     /**
      * Get the comma-separated ingredient list as a string
+     * Format: "ingredientName:quantity:unit,ingredientName:quantity:unit"
      */
     public String getIngredientList() {
         return ingredientList;
@@ -108,6 +115,20 @@ public class Recipes {
     }
 
     /**
+     * Get the cooking method/instructions for this recipe
+     */
+    public String getMethod() {
+        return method;
+    }
+
+    /**
+     * Set or update the cooking method/instructions
+     */
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    /**
      * A helpful toString method for debugging - shows us what the recipe looks like when printed
      */
     @Override
@@ -117,6 +138,7 @@ public class Recipes {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", ingredientList='" + ingredientList + '\'' +
+                ", method='" + method + '\'' +
                 '}';
     }
 }

@@ -1,54 +1,40 @@
 package com.yusry.smartpantrymanager.database;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * PantryDatabaseHelper - Manages all SQLite database operations for Smart Pantry Manager.
- *
- * Think of this class as the "database janitor" - it sets up the database structure
- * (tables and columns), handles creation, and manages updates. Android calls the methods
- * in this class automatically when the app first runs or when the database version changes.
- *
- * We extend SQLiteOpenHelper because it's the recommended Android way to handle SQLite.
- * It prevents common issues like database corruption and ensures thread safety.
- */
 public class PantryDatabaseHelper extends SQLiteOpenHelper {
 
-    // === DATABASE CONFIGURATION ===
+    // Configuring database
     private static final String DATABASE_NAME = "SmartPantry.db"; // File name stored on device
-    private static final int DATABASE_VERSION = 1; // Version number - increment when schema changes
+    private static final int DATABASE_VERSION = 1; // version 1
 
-    // === TABLE NAMES ===
-    // These are the three main tables we need:
-    public static final String TABLE_INGREDIENTS = "ingredients";           // Stores what's in the pantry
-    public static final String TABLE_RECIPES = "recipes";                   // Stores recipe metadata
-    public static final String TABLE_RECIPE_INGREDIENTS = "recipe_ingredients"; // Stores recipe ingredients (links recipes to ingredients)
+    // Declaring tables for ingredients, recipes, and ingredients
+    public static final String TABLE_INGREDIENTS = "ingredients";
+    public static final String TABLE_RECIPES = "recipes";
+    public static final String TABLE_RECIPE_INGREDIENTS = "recipe_ingredients";
 
-    // === INGREDIENTS TABLE COLUMNS ===
-    // Example row: [1, "tomato", 5, "kg", "2025-12-31"]
-    public static final String COLUMN_INGREDIENT_ID = "ingredient_id";      // Unique ID (Primary Key)
-    public static final String COLUMN_INGREDIENT_NAME = "name";             // Ingredient name (must be unique - can't have two "tomatoes")
-    public static final String COLUMN_QUANTITY = "quantity";                // How much we have (e.g., 5)
-    public static final String COLUMN_UNIT = "unit";                        // Unit of measurement (kg, liters, pieces, etc.)
-    public static final String COLUMN_EXPIRY_DATE = "expiry_date";          // When it expires (YYYY-MM-DD format)
 
-    // === RECIPES TABLE COLUMNS ===
-    // Example row: [1, "Tomato Soup", "Boil tomatoes, blend...", "url_to_image"]
-    public static final String COLUMN_RECIPE_ID = "recipe_id";              // Unique ID (Primary Key)
-    public static final String COLUMN_RECIPE_NAME = "recipe_name";          // Recipe name (must be unique)
-    public static final String COLUMN_INSTRUCTIONS = "instructions";        // Step-by-step cooking instructions
-    public static final String COLUMN_IMAGE_URL = "image_url";              // URL or file path to recipe image
+    // Ingredient table: stores Ingredient ID, Ingredient name, qty, unit and expiry date
+    public static final String COLUMN_INGREDIENT_ID = "ingredient_id";
+    public static final String COLUMN_INGREDIENT_NAME = "name";
+    public static final String COLUMN_QUANTITY = "quantity";
+    public static final String COLUMN_UNIT = "unit";
+    public static final String COLUMN_EXPIRY_DATE = "expiry_date";
 
-    // === RECIPE_INGREDIENTS TABLE COLUMNS ===
-    // This is a "junction table" - it connects recipes to their required ingredients
-    // Example row: [1, 1, "tomato", 2, "kg"] means Recipe #1 needs 2kg of tomato
-    public static final String COLUMN_RECIPE_INGREDIENT_ID = "recipe_ingredient_id"; // Unique ID (Primary Key)
-    public static final String COLUMN_RECIPE_FK = "recipe_id";              // Foreign Key pointing to recipes table
-    public static final String COLUMN_RECIPE_ING_NAME = "ingredient_name";  // Which ingredient this recipe needs
-    public static final String COLUMN_RECIPE_ING_QUANTITY = "quantity";     // How much of this ingredient (e.g., 2)
-    public static final String COLUMN_RECIPE_ING_UNIT = "unit";             // Unit (kg, liters, pieces, etc.)
+    // Recipe table: stores Recipe ID, Recipe name, Instruction, and recipe image
+    public static final String COLUMN_RECIPE_ID = "recipe_id";
+    public static final String COLUMN_RECIPE_NAME = "recipe_name";
+    public static final String COLUMN_INSTRUCTIONS = "instructions";
+    public static final String COLUMN_IMAGE_URL = "image_url";
+
+    // Recipe Ingredient table (juntion table): stores recipe ingredient ID, recipe ID as foreign key, ingredient name, quantity, and unit
+
+    public static final String COLUMN_RECIPE_INGREDIENT_ID = "recipe_ingredient_id";
+    public static final String COLUMN_RECIPE_FK = "recipe_id";
+    public static final String COLUMN_RECIPE_ING_NAME = "ingredient_name";
+    public static final String COLUMN_RECIPE_ING_QUANTITY = "quantity";
+    public static final String COLUMN_RECIPE_ING_UNIT = "unit";
 
     /**
      * Constructor - Called when the app creates a database helper instance.
@@ -93,7 +79,8 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +     // Auto-incrementing recipe ID
                 COLUMN_RECIPE_NAME + " TEXT UNIQUE NOT NULL, " +                // Recipe name (must be unique - no duplicate recipes)
                 COLUMN_INSTRUCTIONS + " TEXT, " +                               // Cooking instructions (optional, can be null)
-                COLUMN_IMAGE_URL + " TEXT)";                                    // Image URL (optional)
+                COLUMN_IMAGE_URL + " TEXT," +                                   // Image URL (optional)
+                "description TEXT)";  // Added description column
         db.execSQL(CREATE_RECIPES_TABLE);
 
         // === CREATE RECIPE_INGREDIENTS TABLE ===

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:gravity="center_vertical">
+
+    <!-- Ingredient Name (Left) -->
+    <TextView
+        android:id="@+id/tvIngredientName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
+
+    <!-- Quantity and Unit (Center) -->
+    <TextView
+        android:id="@+id/tvQuantityUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginEnd="16dp" />
+
+    <!-- Delete Button (Red X) -->
+    <ImageButton
+        android:id="@+id/btnDelete"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:contentDescription="Delete"
+        android:scaleType="centerInside"
+        android:background="?attr/selectableItemBackground" />
+
+    <!-- Edit Button (Pencil) -->
+    <ImageButton
+        android:id="@+id/btnEdit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@android:drawable/ic_menu_edit"
+        android:contentDescription="Edit"
+        android:scaleType="centerInside"
+        android:background="?attr/selectableItemBackground"
+        android:layout_marginStart="8dp" />
+
+    <!-- Add Button (Plus) -->
+    <ImageButton
+        android:id="@+id/btnAdd"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@android:drawable/ic_menu_add"
+        android:contentDescription="Add"
+        android:scaleType="centerInside"
+        android:background="?attr/selectableItemBackground"
+        android:layout_marginStart="8dp" />
+
+</LinearLayout>

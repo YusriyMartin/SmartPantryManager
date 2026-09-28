@@ -1,140 +1,147 @@
 package com.yusry.smartpantrymanager.database;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import com.yusry.smartpantrymanager.models.Ingredient;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
+import java.util.Locale;
 public class IngredientDAO {
-    // This variable holds the connection to our SQLite database
-    // Think of it like a telephone line to the database—we use it to send commands
-    private SQLiteDatabase db;
-
-    // Constructor: This gets called when we create a new IngredientDAO object
-    // We pass in the database connection and store it so we can use it later
-    public IngredientDAO(SQLiteDatabase database) {
-        this.db = database;
+    private final PantryDatabaseHelper dbHelper; // Creating reference to database helper for db access
+    // Constructor that runs when a new ingredient DAO (Data Access Object) required
+    public IngredientDAO(PantryDatabaseHelper dbHelper) {
+        this.dbHelper = dbHelper; // stores db helper for later
     }
 
-    // ========== CREATE METHOD ==========
-    // This method ADDS a new ingredient to the pantry
-    // We give it the ingredient's name, quantity (how much), and unit (cups, grams, etc.)
-    // It returns the ID of the newly created ingredient (or -1 if it fails)
-    public long addIngredient(String name, String quantity, String unit) {
-        // ContentValues is like a shopping bag where we put key-value pairs
-        // Think of it as: {"name": "tomato", "quantity": "5", "unit": "kg"}
-        // SQLite needs this format to understand what data we're inserting
-        ContentValues values = new ContentValues();
-
-        // Now we're filling the shopping bag with our ingredient's information
-        values.put("name", name);           // Put the ingredient name in the bag
-        values.put("quantity", quantity);   // Put the quantity in the bag
-        values.put("unit", unit);           // Put the measurement unit in the bag
-
-        // Now we send this to the database
-        // db.insert() says "Hey database, add this data to the 'ingredients' table"
-        // It returns the ID of the new row (so we know it was added successfully)
-        return db.insert("ingredients", null, values);
-    }
-
-    // ========== READ METHOD (Get All) ==========
-    // This method GETS ALL ingredients from the pantry
-    // It returns a list of ingredient names like ["tomato", "onion", "garlic"]
-    public List<String> getAllIngredients() {
-        // Create an empty bag to hold all the ingredient names we find
-        List<String> ingredients = new ArrayList<>();
-
-        // db.query() is like asking the database a question
-        // "Give me all data from the 'ingredients' table"
-        // The 'null' values mean "I want ALL rows, ALL columns, no filters"
-        Cursor cursor = db.query("ingredients", null, null, null, null, null, null);
-
-        // Now we have a cursor (think of it as a finger pointing at database results)
-        // moveToFirst() moves that finger to the first result
-        // If there ARE results, it returns true. If the table is empty, it returns false
-        if (cursor.moveToFirst()) {
-            // This loop keeps going through each ingredient one by one
-            // It's like reading a list from top to bottom
-            do {
-                // getColumnIndex("name") finds which column number has the ingredient name
-                // Then getString() gets the actual name from that column
-                String name = cursor.getString(cursor.getColumnIndex("name"));
-
-                // Add this ingredient name to our shopping bag (the List)
-                ingredients.add(name);
-
-                // moveToNext() moves our finger to the next ingredient in the results
-                // If there are no more ingredients, the loop stops
-            } while (cursor.moveToNext());
+    // Function to save new ingredients to db
+    public void addIngredient(Ingredient ingredient) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase(); // Getting access to db
+        try {
+            ContentValues values = new ContentValues(); // Declare ContentValues to hold data
+            // Adding values into corresponding column container
+            values.put("name", ingredient.getName());
+            values.put("quantity", ingredient.getQuantity());
+            values.put("unit", ingredient.getUnit());
+            values.put("date_added", getCurrentDate());
+            long result = db.insert("ingredients", null, values); //Insert value into ingredients table, retrieve ID back
+            // If result is -1, display error messgae
+            if (result == -1)
+            {
+                System.out.println("Unable to add that ingredient");
+            }
+        } finally {
+            db.close(); //Close db connection
         }
-
-        // IMPORTANT: We're done with the cursor, so we close it
-        // This frees up database resources (like closing a book after reading)
-        cursor.close();
-
-        // Return the list of all ingredients we found
-        return ingredients;
     }
 
-    // ========== READ METHOD (Get One) ==========
-    // This method GETS ONE specific ingredient by its ID
-    // Think of it like looking up a person's phone number by their ID
-    public String getIngredientById(int id) {
-        // We're asking the database: "Give me data WHERE id equals this specific number"
-        // The "id = ?" means we're filtering for a specific ID
-        // The String array with the ID is the actual value we're searching for
-        Cursor cursor = db.query("ingredients", null, "id = ?", new String[]{String.valueOf(id)}, null, null, null);
+    // Gets all ingredients form db
+    public List<Ingredient> getAllIngredients() {
+        List<Ingredient> ingredientList = new ArrayList<>(); // Creating empty list to store ingredients
+        SQLiteDatabase db = dbHelper.getReadableDatabase(); // Readable access to the database
 
-        // Did we find an ingredient with this ID?
-        if (cursor.moveToFirst()) {
-            // Yes! Get the name from the first (and only) result
-            String name = cursor.getString(cursor.getColumnIndex("name"));
+        // Check the db to get all rows
+        try {
+            Cursor cursor = db.query("ingredients", null, null, null, null, null, null);
+            // Loop through each row/ingredients
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(0); // Get Ingredient ID
+                String name = cursor.getString(1); // Get ingredient name
+                double quantity = cursor.getDouble(2); // Get qty
+                String unit = cursor.getString(3); //get unit
+                String dateAdded = cursor.getString(4); // get date
 
-            // Close the cursor before we return (don't forget this!)
-            cursor.close();
+                Ingredient ingredient = new Ingredient(id, name, quantity, unit, dateAdded); // Object for data called ingredient
 
-            // Give back the ingredient name we found
-            return name;
+                ingredientList.add(ingredient); // Add ingredient to list
+            }
+            cursor.close(); // close cursor
+        } finally {
+            db.close(); // close db connection
         }
-
-        // If we get here, we didn't find an ingredient with that ID
-        // Close the cursor anyway (good practice)
-        cursor.close();
-
-        // Return null to say "I didn't find anything"
-        return null;
+        return ingredientList; // return ingredients
     }
 
-    // ========== UPDATE METHOD ==========
-    // This method CHANGES an ingredient's information
-    // We give it the ingredient's ID (so we know which one to change),
-    // and the new name, quantity, and unit
-    // It returns how many ingredients were successfully updated (usually 1 or 0)
-    public int updateIngredient(int id, String name, String quantity, String unit) {
-        // Create a shopping bag with the NEW information we want to store
-        ContentValues values = new ContentValues();
+    // Gets single ingredient from db
+    public Ingredient getIngredientById(int id) {
+        // Get readable access to the database
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // Fill the bag with the updated ingredient data
-        values.put("name", name);           // New ingredient name
-        values.put("quantity", quantity);   // New quantity
-        values.put("unit", unit);           // New unit
+        try {
+            // Query to find specific ingredient
+            Cursor cursor = db.query("ingredients", null, "id = ?", new String[]{String.valueOf(id)}, null, null, null);
 
-        // Now tell the database to update
-        // db.update() says: "In the 'ingredients' table, find the row WHERE id equals this value,
-        // and replace its data with what's in our shopping bag"
-        // It returns how many rows were actually updated (1 = success, 0 = ingredient not found)
-        return db.update("ingredients", values, "id = ?", new String[]{String.valueOf(id)});
+            // if statement to check if founs
+            if (cursor.moveToFirst()) {
+                // Get ingredient, qty, unit and date from columns
+                int ingredientId = cursor.getInt(0);
+                String name = cursor.getString(1);
+                double quantity = cursor.getDouble(2);
+                String unit = cursor.getString(3);
+                String dateAdded = cursor.getString(4);
+                cursor.close(); //Close cursor
+
+                // Create a new Ingredient object with this data and return it
+                return new Ingredient(ingredientId, name, quantity, unit, dateAdded);
+            }
+            cursor.close(); // Close cursor, no ingredient found
+        } finally {
+            db.close(); // Close db connection
+        }
+        return null; // return null if no ingredients
     }
 
-    // ========== DELETE METHOD ==========
-    // This method REMOVES an ingredient from the pantry forever
-    // We give it the ingredient's ID (so we know which one to delete)
-    // It returns how many ingredients were successfully deleted (usually 1 or 0)
-    public int deleteIngredient(int id) {
-        // Tell the database to delete
-        // db.delete() says: "From the 'ingredients' table, remove the row WHERE id equals this value"
-        // It returns how many rows were actually deleted (1 = success, 0 = ingredient not found)
-        return db.delete("ingredients", "id = ?", new String[]{String.valueOf(id)});
+    // Updating existing ingredients in db
+    public void updateIngredient(Ingredient ingredient) {
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase(); // get access to db
+
+        try {
+            // Create a ContentValues container with the updated ingredient data
+            ContentValues values = new ContentValues();
+
+            // Put the updated name, qty, unit, and date into new container
+            values.put("name", ingredient.getName());
+            values.put("quantity", ingredient.getQuantity());
+            values.put("unit", ingredient.getUnit());
+            values.put("date_added", ingredient.getDateAdded());
+
+            // Update row in db where id equals ingredient ID
+            int rowsAffected = db.update("ingredients", values, "id = ?", new String[]{String.valueOf(ingredient.getId())}  //ID that must match
+            );
+
+            // If 0, no row updated, display message
+            if (rowsAffected == 0) {
+                System.out.println("Unable to edit that Ingredient");
+            }
+        } finally {
+            db.close(); // Close db
+        }
+    }
+
+    // Removes ingredients from the database
+    public void deleteIngredient(int id) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase(); // Access the db
+
+        try {
+            // Delete the row from db base on ID
+            int rowsAffected = db.delete("ingredients", "id = ?", new String[]{String.valueOf(id)}
+            );
+
+            // Check if o, if 0 then no row was deleted, display message
+            if (rowsAffected == 0) {
+                System.out.println("Ingredient not found!");
+            }
+        } finally {
+            // Always close the database connection
+            db.close();
+        }
+    }
+
+    // Helper method, returns today's date, to track when ingredients were added
+    private String getCurrentDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()); //Date formatter to get specific format
+        return sdf.format(new Date());
     }
 }
