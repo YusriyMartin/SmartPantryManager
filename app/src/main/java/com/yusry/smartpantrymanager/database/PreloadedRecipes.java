@@ -1,221 +1,184 @@
 package com.yusry.smartpantrymanager.database;
-
 import android.content.Context;
 import com.yusry.smartpantrymanager.models.Recipes;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * PreloadedRecipes class - loads 20 sample recipes into the database on first app launch.
- * This ensures users see recipes immediately without a blank screen.
- */
+// Loads preloaded recups
 public class PreloadedRecipes {
 
-    // We're creating a helper method that returns a list of pre-made Recipes
-    // Think of it like a cookbook—each recipe has a name, description, ingredients, and cooking method
+    // Helper method that will return list of recipes
     public static List<Recipes> getPreloadedRecipes() {
-        // Create an empty list to hold all our recipes
+        // Create list to hold all recipes
         List<Recipes> recipes = new ArrayList<>();
 
-        // Recipe 1: Tomato Sauce
-        // The ingredientList is stored as a STRING with ingredients separated by commas
+        // 1. Traditional South African Sosaties
         recipes.add(new Recipes(
-                "Tomato Sauce",
-                "A classic Italian tomato-based sauce perfect for pasta",
-                "tomatoes,garlic,olive oil,salt,pepper",
-                "1. Chop tomatoes. 2. Sauté garlic in olive oil. 3. Add tomatoes, salt, and pepper. 4. Simmer for 20 minutes."
+                "Traditional South African Sosaties",
+                "beef cubed (500g), onion (2 large, sliced), marinade soy sauce (75ml), worcestershire sauce (30ml), honey (60ml), garlic (4 cloves, minced), ginger (1 tablespoon, minced), black pepper, salt, bay leaves (3), thyme (1 teaspoon), skewers (soaked)",
+                "Combine soy sauce, worcestershire, honey, garlic, ginger, pepper, salt, bay leaves and thyme in a bowl. Add beef cubes and marinate for minimum 4 hours or overnight. Thread beef onto skewers alternating with onion slices. Braai on medium-hot coals for 10-12 minutes, turning frequently. Baste with remaining marinade. Serve hot with pap and tomato relish.",
+                "Traditional South African Sosaties"
         ));
-
-        // Recipe 2: Caesar Salad
+        // 2. Buttermilk Rusks
         recipes.add(new Recipes(
-                "Caesar Salad",
-                "Crispy lettuce with parmesan cheese and creamy dressing",
-                "lettuce,parmesan,croutons,caesar dressing,lemon",
-                "1. Wash and chop lettuce. 2. Add croutons and parmesan. 3. Drizzle with caesar dressing. 4. Squeeze lemon and serve."
+                "Buttermilk Rusks",
+                "self raising flour (4 cups), sugar (250g), butter (250g), eggs (3), buttermilk (1 cup), baking powder (2 teaspoons), salt (1 teaspoon), vanilla extract (1 teaspoon), aniseed (1 tablespoon, optional)",
+                "Cream butter and sugar until light and fluffy. Beat in eggs one at a time. Combine flour, baking powder, salt and aniseed in separate bowl. Alternate adding flour mixture and buttermilk to butter mixture, starting and ending with flour. Pour into greased loaf tin and bake at 180°C for 50-60 minutes until golden. Cool, slice diagonally and bake slices at 160°C for 20-25 minutes until dry and crispy, turning halfway through.",
+                "Buttermilk Rusks"
         ));
-
-        // Recipe 3: Pasta Carbonara
+        // 3. Fatcake Burger
         recipes.add(new Recipes(
-                "Pasta Carbonara",
-                "Creamy pasta with eggs, bacon, and parmesan cheese",
-                "pasta,eggs,bacon,parmesan,salt,pepper",
-                "1. Cook pasta. 2. Fry bacon until crispy. 3. Mix eggs and parmesan. 4. Combine hot pasta with eggs and bacon. 5. Season with salt and pepper."
+                "Fatcake Burger",
+                "self raising flour (2 cups), sugar (1 tablespoon), salt (1 teaspoon), baking powder (2 teaspoons), water (1.5 cups), oil (for frying), ground beef (500g), onion (1, diced), garlic (2 cloves, minced), tomato sauce (30ml), worcestershire sauce (15ml), salt & pepper, lettuce (1 bunch), tomato (2, sliced), cheese (200g, sliced)",
+                "Mix flour, sugar, salt and baking powder. Add water gradually to form thick batter. Heat oil and fry spoonfuls of batter until golden and puffy (fatcakes). Brown ground beef with onion and garlic, add tomato sauce, worcestershire, salt and pepper. Simmer 10 minutes. Split warm fatcakes and fill with beef mixture, lettuce, tomato and cheese. Serve immediately.",
+                "Fatcake Burger"
         ));
-
-        // Recipe 4: Garlic Bread
+        // 4. Boerewors Corn Dog
         recipes.add(new Recipes(
-                "Garlic Bread",
-                "Crispy bread with garlic and butter",
-                "bread,garlic,butter,parsley,salt",
-                "1. Mix butter with minced garlic and parsley. 2. Spread on bread slices. 3. Bake at 375°F for 10 minutes until golden."
+                "Boerewors Corn Dog",
+                "boerewors (500g), cornmeal (1 cup), self raising flour (1 cup), sugar (2 tablespoons), baking powder (2 teaspoons), salt (1 teaspoon), milk (1 cup), egg (1), mustard (2 tablespoons), oil (for frying), wooden sticks",
+                "Mix cornmeal, flour, sugar, baking powder and salt. Whisk milk and egg together, add to dry ingredients with mustard until smooth batter forms. Heat oil in pot. Pierce boerewors with stick. Dip boerewors in batter until fully coated. Fry 5-6 minutes until golden brown, turning occasionally. Drain on paper towel. Serve hot with tomato sauce and mustard.",
+                "Boerewors Corn Dog"
         ));
-
-        // Recipe 5: Chicken Stir Fry
+        // 5. Malva Pudding
         recipes.add(new Recipes(
-                "Chicken Stir Fry",
-                "Tender chicken with fresh vegetables in a savory soy sauce",
-                "chicken,soy sauce,bell peppers,broccoli,garlic,oil",
-                "1. Heat oil in a wok. 2. Stir-fry chicken until cooked. 3. Add vegetables and garlic. 4. Pour soy sauce and stir well. 5. Serve hot."
+                "Malva Pudding",
+                "self raising flour (1.5 cups), sugar (150g), butter (75g), egg (1), apricot jam (150ml), baking soda (1 teaspoon), vanilla extract (1 teaspoon), salt (pinch), hot water (250ml), cream (250ml), brown sugar (150g), butter (75g)",
+                "Cream butter and sugar. Beat in egg and vanilla. Mix flour, baking soda and salt, fold into wet ingredients with jam. Pour into greased baking dish. For sauce: dissolve brown sugar and butter in hot water, pour over batter carefully (don't stir). Bake at 180°C for 35-40 minutes until spongy. Heat cream, pour warm sauce over pudding before serving. Serve warm with custard.",
+                "Malva Pudding"
         ));
-
-        // Recipe 6: Margherita Pizza
+        // 6. Milk Tart (Melktert)
         recipes.add(new Recipes(
-                "Margherita Pizza",
-                "Fresh pizza with mozzarella, tomatoes, and basil",
-                "pizza dough,tomato sauce,mozzarella,basil,olive oil",
-                "1. Spread tomato sauce on dough. 2. Add mozzarella pieces. 3. Drizzle with olive oil. 4. Bake at 475°F for 12 minutes. 5. Top with fresh basil."
+                "Milk Tart (Melktert)",
+                "puff pastry (500g), milk (1 liter), cornstarch (60g), sugar (200g), egg (1), butter (30g), vanilla extract (1 teaspoon), cinnamon (1 tablespoon), salt (pinch)",
+                "Line tart tin with puff pastry, prick with fork and bake blind at 200°C for 10 minutes. Whisk cornstarch with 50ml cold milk. Heat remaining milk with sugar and salt until steaming. Add cornstarch slurry, stirring constantly until thick. Cool slightly, whisk in egg, butter and vanilla. Pour filling into pastry case. Sprinkle cinnamon generously on top. Bake at 180°C for 20-25 minutes until cinnamon sugar caramelizes slightly. Chill before serving.",
+                "Milk Tart (Melktert)"
         ));
-
-        // Recipe 7: Vegetable Soup
+        // 7. Inkomasi Scones
         recipes.add(new Recipes(
-                "Vegetable Soup",
-                "A hearty soup loaded with fresh vegetables",
-                "carrots,celery,onions,potatoes,vegetable broth,salt,pepper",
-                "1. Chop all vegetables. 2. Sauté onions and celery. 3. Add carrots and potatoes. 4. Pour in broth and simmer 30 minutes. 5. Season with salt and pepper."
+                "Inkomasi Scones",
+                "self raising flour (2 cups), sugar (2 tablespoons), baking powder (1 teaspoon), salt (1 teaspoon), butter (100g), milk (750ml), egg (1, beaten), vanilla extract (1 teaspoon)",
+                "Mix flour, sugar, baking powder and salt. Rub in cold butter until breadcrumb texture. Make well in center, pour in milk and vanilla, mix gently until just combined. Turn onto floured surface, handle minimally. Pat to 2cm thickness, cut into circles. Place on baking tray, brush with beaten egg. Bake at 200°C for 12-15 minutes until golden. Serve warm with jam and cream.",
+                "Inkomasi Scones"
         ));
-
-        // Recipe 8: Fish Tacos
+        // 8. Microwave Pap
         recipes.add(new Recipes(
-                "Fish Tacos",
-                "Light tacos with seasoned fish and fresh toppings",
-                "fish,tortillas,cabbage,lime,cilantro,sour cream",
-                "1. Season and grill fish. 2. Shred cabbage. 3. Warm tortillas. 4. Assemble tacos with fish and cabbage. 5. Top with cilantro and sour cream. 6. Squeeze lime juice."
+                "Microwave Pap",
+                "cornmeal (1 cup), water (4 cups), salt (1 teaspoon), butter (30g), sugar (optional, 1 tablespoon)",
+                "Pour water into microwave safe bowl and microwave 5 minutes until boiling. Slowly add cornmeal while stirring constantly to avoid lumps. Stir in salt. Microwave uncovered 10-12 minutes, stirring every 2-3 minutes, until smooth and thick. Add butter and sugar if desired. Stir well and serve hot.",
+                "Microwave Pap"
         ));
-
-        // Recipe 9: Chocolate Chip Cookies
+        // 9. Simple Fatcake Recipe
         recipes.add(new Recipes(
-                "Chocolate Chip Cookies",
-                "Soft and chewy cookies loaded with chocolate chips",
-                "flour,butter,sugar,eggs,chocolate chips,vanilla extract,baking soda",
-                "1. Mix butter and sugar. 2. Add eggs and vanilla. 3. Blend in flour and baking soda. 4. Fold in chocolate chips. 5. Bake at 350°F for 12 minutes."
+                "Simple Fatcake Recipe",
+                "self raising flour (2 cups), sugar (2 tablespoons), salt (1 teaspoon), baking powder (2 teaspoons), water (1.5 cups), oil (for frying), jam (for filling), cinnamon sugar (cinnamon + sugar mixture)",
+                "Mix flour, sugar, salt and baking powder. Add water gradually, stirring until thick batter forms (don't overmix). Heat oil in deep pan. Drop spoonfuls of batter and fry 2-3 minutes each side until golden. Drain on paper towel. While warm, split fatcake and fill with jam. Roll in cinnamon sugar while still warm. Serve hot.",
+                "Simple Fatcake Recipe"
         ));
-
-        // Recipe 10: Fried Rice
+        // 10. Magwinya
         recipes.add(new Recipes(
-                "Fried Rice",
-                "Asian-style rice with eggs and vegetables",
-                "rice,eggs,soy sauce,carrots,peas,oil,garlic",
-                "1. Heat oil in wok. 2. Scramble eggs and set aside. 3. Stir-fry garlic, carrots, and peas. 4. Add rice and soy sauce. 5. Mix in eggs. 6. Serve hot."
+                "Magwinya",
+                "self raising flour (2 cups), sugar (3 tablespoons), salt (1 teaspoon), water (1.5 cups), oil (for frying), mixed spice (1 teaspoon)",
+                "Sift flour, sugar, salt and mixed spice together. Add water gradually, stirring until thick batter forms. Heat oil in deep pan or wok. Drop spoonfuls of batter and fry until golden brown on both sides (2-3 minutes total). Drain on paper towel. Serve warm as snack or with sweet sauce. Can be eaten plain or with jam.",
+                "Magwinya"
         ));
-
-        // Recipe 11: Beef Tacos
+        // 11. Dombolo with Sweet Corn
         recipes.add(new Recipes(
-                "Beef Tacos",
-                "Delicious tacos with seasoned ground beef",
-                "ground beef,tortillas,lettuce,tomatoes,cheese,salsa",
-                "1. Brown ground beef with taco seasoning. 2. Warm tortillas. 3. Assemble with beef, lettuce, and tomatoes. 4. Top with cheese and salsa."
+                "Dombolo with Sweet Corn",
+                "self raising flour (2 cups), sugar (2 tablespoons), baking powder (1 teaspoon), salt (1 teaspoon), water (1.5 cups), butter (30g), sweet corn (400g, canned), chicken stock (1 liter), onion (1, diced), garlic (2 cloves, minced), thyme (1 teaspoon)",
+                "Heat butter, saute onion and garlic until soft. Add sweet corn and stock, bring to boil. Mix flour, sugar, baking powder and salt. Add water gradually until dough forms. Drop spoonfuls of dough into boiling liquid. Simmer covered 20-25 minutes until dumplings are cooked through. Add thyme and season to taste. Serve hot.",
+                "Dombolo with Sweet Corn"
         ));
-
-        // Recipe 12: Greek Salad
+        // 12. South African Potato Salad
         recipes.add(new Recipes(
-                "Greek Salad",
-                "Fresh vegetables with Feta cheese and olives",
-                "lettuce,tomatoes,cucumbers,olives,feta cheese,olive oil",
-                "1. Chop lettuce, tomatoes, and cucumbers. 2. Add olives and Feta chunks. 3. Drizzle with olive oil. 4. Toss and serve."
+                "South African Potato Salad",
+                "potatoes (1kg, cubed), mayonnaise (500ml), gherkins (300g, sliced), celery (2 stalks, diced), apple (2, diced), onion (1, finely diced), salt (1 teaspoon), black pepper (1 teaspoon), fresh parsley (2 tablespoons, chopped)",
+                "Boil potatoes until tender, drain and cool. Combine mayonnaise, gherkins, celery, apple and onion in large bowl. Add cooled potatoes and toss gently. Season with salt and pepper. Refrigerate for at least 30 minutes. Garnish with fresh parsley before serving. Serve cold as side dish.",
+                "South African Potato Salad"
         ));
-
-        // Recipe 13: Spaghetti Bolognese
+        // 13. Easy Boerewors Stew
         recipes.add(new Recipes(
-                "Spaghetti Bolognese",
-                "Pasta with a rich meat sauce",
-                "spaghetti,ground beef,tomato sauce,garlic,onions,olive oil",
-                "1. Brown ground beef. 2. Sauté onions and garlic. 3. Add tomato sauce. 4. Simmer 20 minutes. 5. Cook spaghetti and serve with sauce."
+                "Easy Boerewors Stew",
+                "boerewors (500g, sliced), onions (2, sliced), potatoes (4, cubed), carrots (3, sliced), tomato sauce (400ml), beef stock (500ml), worcestershire sauce (15ml), bay leaves (2), thyme (1 teaspoon), salt & pepper",
+                "Brown boerewors in large pot, remove and set aside. Saute onions until soft. Add potatoes, carrots, tomato sauce, stock, worcestershire, bay leaves and thyme. Return boerewors to pot. Simmer covered 30-40 minutes until vegetables are tender. Season with salt and pepper. Serve hot with pap or bread.",
+                "Easy Boerewors Stew"
         ));
-
-        // Recipe 14: Smoothie Bowl
+        // 14. Polony, Atchar and Cheese Fat Cake
         recipes.add(new Recipes(
-                "Smoothie Bowl",
-                "Creamy smoothie base topped with fresh fruit and granola",
-                "yogurt,berries,banana,granola,honey,coconut flakes",
-                "1. Blend yogurt, berries, and banana. 2. Pour into bowl. 3. Top with granola, coconut flakes, and drizzle of honey. 4. Serve immediately."
+                "Polony, Atchar and Cheese Fat Cake",
+                "self raising flour (2 cups), sugar (1 tablespoon), salt (1 teaspoon), baking powder (2 teaspoons), water (1.5 cups), oil (for frying), polony (300g, sliced), atchar (200ml), cheddar cheese (200g, sliced), lettuce (1 bunch), tomato (2, sliced)",
+                "Mix flour, sugar, salt and baking powder. Add water gradually for thick batter. Fry spoonfuls in hot oil until golden on both sides. Split warm fatcakes, fill with polony slices, spoon atchar over top, add cheese, lettuce and tomato. Serve immediately while fatcakes are still warm.",
+                "Polony, Atchar and Cheese Fat Cake"
         ));
-
-        // Recipe 15: Grilled Chicken Breast
+        // 15. Chicken Nugget Salad
         recipes.add(new Recipes(
-                "Grilled Chicken Breast",
-                "Tender and juicy grilled chicken with herbs",
-                "chicken breast,olive oil,lemon,garlic,rosemary,salt,pepper",
-                "1. Season chicken with salt, pepper, garlic, and rosemary. 2. Brush with olive oil. 3. Grill for 6-8 minutes per side. 4. Squeeze lemon juice. 5. Rest 5 minutes before serving."
+                "Chicken Nugget Salad",
+                "chicken nuggets (500g), lettuce (1 large, chopped), gherkins (380g, sliced), cheddar cheese (400g, cubed), tomatoes (4, cubed), mayonnaise (730g), olives (200g), salt & pepper, worcestershire braai spice (pinch), avocado (1-2, sliced), oil (750ml)",
+                "Heat oil and fry nuggets until golden brown and cooked through. Drain on paper towel and cut into chunks. Chop lettuce and place in salad bowl. Add nugget chunks, sliced gherkins, cubed cheese, tomato cubes and olives. Mix in mayonnaise, add avocado slices. Season with salt, pepper and braai spice. Toss gently and refrigerate until serving.",
+                "Chicken Nugget Salad"
         ));
-
-        // Recipe 16: Mushroom Risotto
+        // 16. Chicken Curry with Sweet Potatoes and Homemade Dombolo
         recipes.add(new Recipes(
-                "Mushroom Risotto",
-                "Creamy rice dish with earthy mushrooms",
-                "rice,mushrooms,white wine,vegetable broth,butter,parmesan,onions",
-                "1. Sauté onions and mushrooms. 2. Add rice and toast. 3. Pour white wine. 4. Gradually add warm broth while stirring. 5. Finish with butter and parmesan."
+                "Chicken Curry with Sweet Potatoes and Homemade Dombolo",
+                "chicken pieces (800g), sweet potatoes (4, cubed), carrots (3, sliced), onions (2, diced), salt & pepper, turmeric (1 teaspoon), curry powder (2 tablespoons), mixed dried herbs (1 teaspoon), self raising flour (2 cups), sugar (2 tablespoons), lukewarm water (1 cup)",
+                "Dice onions and carrots, add to hot pan with oil. Season with herbs, spices, turmeric, salt and pepper. Add sweet potatoes and chicken pieces, mix well. Cover and simmer 10 minutes. For dombolo: mix flour, sugar and salt, add lukewarm water, form ball and knead slightly. Rest 15 minutes. Divide into 4 balls and carefully drop into curry. Cover pot tightly and simmer 25 minutes without opening until dombolo is firm and cooked through. Serve hot.",
+                "Chicken Curry with Sweet Potatoes and Homemade Dombolo"
         ));
-
-        // Recipe 17: Lemon Cake
+        // 17. Easy Beef Stew
         recipes.add(new Recipes(
-                "Lemon Cake",
-                "Bright and zesty cake with a tangy lemon flavor",
-                "flour,butter,sugar,eggs,lemon,baking powder,vanilla extract",
-                "1. Cream butter and sugar. 2. Add eggs and vanilla. 3. Mix in flour and baking powder. 4. Fold in lemon zest and juice. 5. Bake at 350°F for 30 minutes."
+                "Easy Beef Stew",
+                "beef cubed (500g), onion (1, sliced), organium (1 teaspoon), ground cumin (1 teaspoon), ground coriander (1 teaspoon), knorr beef stock (2 cubes), Aromat original (1 teaspoon), water (2 cups), potatoes (4 medium, cubed), carrots (2 large, sliced)",
+                "Fry onion with organium, cumin and coriander until fragrant. Add cubed beef and fry briefly. Add water and simmer 25 minutes. Add sliced carrots, cubed potatoes and beef stock cubes. Simmer 20 minutes until potatoes are tender. Add Aromat seasoning to taste. Simmer until vegetables are fully cooked. Serve hot with rice, dumplings, pap or bread.",
+                "Easy Beef Stew"
         ));
-
-        // Recipe 18: Baked Salmon
+        // 18. Cape Malay Pickled Fish With A Twist
         recipes.add(new Recipes(
-                "Baked Salmon",
-                "Flaky salmon with fresh herbs and lemon",
-                "salmon,lemon,dill,olive oil,salt,pepper,garlic",
-                "1. Place salmon on baking sheet. 2. Season with salt, pepper, garlic, and dill. 3. Drizzle with olive oil. 4. Add lemon slices. 5. Bake at 400°F for 15 minutes."
+                "Cape Malay Pickled Fish With A Twist",
+                "hake fillet (1kg), white sugar (500g), brown vinegar (750ml), cumin seeds (2 teaspoons), coriander powder (1 tablespoon), bay leaves (5), turmeric powder (2 teaspoons), curry powder (5 teaspoons), onions (4 large, sliced), garlic (3 cloves, minced), salt (2 teaspoons), pepper powder (1 teaspoon), flour (1 cup), oil (100ml), worcestershire sauce (1 tablespoon)",
+                "Cut fish into portions. Mix flour, 1 teaspoon salt and 1 teaspoon curry powder. Coat fish in mixture. Fry fish 5 minutes each side over medium heat, set aside on glass plate. Slice onions into rings. Fry onions 7 minutes in stainless steel pan. Add garlic, spices and worcestershire sauce, stir a few minutes. Pour in vinegar and sugar, stir 5 minutes. Reduce heat and simmer 30 minutes. Layer fish and vinegar sauce in glass bowl. Cool to room temperature, cover and refrigerate for 2 days before serving cold.",
+                "Cape Malay Pickled Fish With A Twist"
         ));
-
-        // Recipe 19: Caprese Salad
+        // 19. Pea Salad with Bacon
         recipes.add(new Recipes(
-                "Caprese Salad",
-                "Fresh tomatoes and mozzarella with basil and balsamic",
-                "tomatoes,mozzarella,basil,balsamic vinegar,olive oil,salt",
-                "1. Slice tomatoes and mozzarella. 2. Layer alternately. 3. Add fresh basil leaves. 4. Drizzle with olive oil and balsamic vinegar. 5. Season with salt."
+                "Pea Salad with Bacon",
+                "frozen peas (1kg), olive oil (1 teaspoon), minced bacon (500g), cheddar cheese (400g, cubed), plain yogurt (3/4 cups), mayonnaise (1/4 cups), mixed herbs (1 teaspoon), english mustard (1 teaspoon), salt (1 teaspoon), black pepper (1 teaspoon), red onion (1, finely chopped)",
+                "Boil water in medium pot, add peas and cook 5 minutes (don't overcook). Drain and wash with cold water, set aside to dry. Heat olive oil and cook minced bacon until crisp. Mix dressing ingredients in small bowl: yogurt, mayonnaise, herbs, mustard, salt and pepper. Layer salad in bowl: peas, bacon, cheese cubes, dressing and red onion. Mix before serving. Serve as salad or side dish.",
+                "Pea Salad with Bacon"
         ));
-
-        // Recipe 20: Beef Stew
+        // 20. Sugar Bean Curry
         recipes.add(new Recipes(
-                "Beef Stew",
-                "Hearty stew with tender beef and vegetables",
-                "beef,potatoes,carrots,celery,beef broth,onions,tomato paste,salt,pepper",
-                "1. Brown beef cubes. 2. Sauté onions and celery. 3. Add carrots and potatoes. 4. Pour in broth and tomato paste. 5. Simmer 90 minutes until tender. 6. Season with salt and pepper."
+                "Sugar Bean Curry",
+                "sugar beans soaked and boiled (500g), medium potatoes (4, quartered), ginger and garlic paste (1 teaspoon), curry leaves (1 sprig), mixed masala (2 tablespoons), cinnamon sticks (2), star anise (2), salt (1 teaspoon), water (as needed), vegetable oil (2 tablespoons), onion (1, diced), coriander (2 tablespoons, chopped)",
+                "Soak sugar beans 2 hours then boil until soft. Heat oil in pot, fry onions until light brown. Add cinnamon and star anise, fry briefly. Remove from heat, add ginger/garlic paste, masala and potatoes. Return to heat, simmer on low to fry spices. Add water gradually to avoid burning. Season with salt and simmer until potatoes are semi-soft. Add cooked beans, curry leaves and more water (1 cup). Simmer 20 minutes until potatoes are fully soft. Garnish with coriander and serve with basmati rice or as bunny chow.",
+                "Sugar Bean Curry"
         ));
-
-        // Return the complete list of recipes
         return recipes;
     }
 
-    /**
-     * This method loads all preloaded recipes into the database using RecipeDAO.
-     * It's called from MainActivity to populate the database on first launch.
-     * We check if recipes already exist to avoid loading duplicates every time the app opens.
-     */
+    // Creating method to load preloaded recipes into the database using ReceipeDAO (Data Access Object)
     public static boolean loadRecipesIntoDB(Context context) {
-        // Create a RecipeDAO instance using the context (not PantryDatabaseHelper!)
-        RecipeDAO recipeDAO = new RecipeDAO(context);
 
-        // Get all recipes currently in the database
-        List<Recipes> existingRecipes = recipeDAO.getAllRecipes();
+        RecipeDAO recipeDAO = new RecipeDAO(context); // Creating an instance of RecipeDAO using context
+        List<Recipes> existingRecipes = recipeDAO.getAllRecipes(); // Get all recipes
 
-        // If recipes already exist in the database, don't load them again
+        // Check if recipes exist, whether empty, return if true
         if (existingRecipes != null && !existingRecipes.isEmpty()) {
-            // Recipes are already loaded, so return true (success)
             return true;
         }
 
-        // Get the list of 20 preloaded recipes
+        // Get list of recups
         List<Recipes> preloadedRecipes = getPreloadedRecipes();
 
-        // Loop through each recipe and add it to the database
+        // Loop through recipes
         for (Recipes recipe : preloadedRecipes) {
-            // Use RecipeDAO to insert this recipe into the SQLite database
-            long result = recipeDAO.addRecipe(recipe);
 
-            // Check if the insertion was successful
+            long result = recipeDAO.addRecipe(recipe); // Use recipeDAO to inesrt to db
+
+            // Check if insertion was successful
             if (result == -1) {
-                // Insertion failed—return false to indicate an error occurred
                 return false;
             }
         }
-
-        // All recipes were successfully loaded into the database, so return true
         return true;
     }
 }
