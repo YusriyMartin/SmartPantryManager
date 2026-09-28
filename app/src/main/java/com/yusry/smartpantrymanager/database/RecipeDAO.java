@@ -1,5 +1,4 @@
 package com.yusry.smartpantrymanager.database;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,207 +7,152 @@ import com.yusry.smartpantrymanager.models.Recipes;
 import java.util.ArrayList;
 import java.util.List;
 
-// RecipeDAO handles all database operations for recipes (Create, Read, Update, Delete)
+// To handle database CRUD operations for recipes
 public class RecipeDAO {
-    // We need the database helper to get access to the actual SQLite database
-    private PantryDatabaseHelper dbHelper;
-
-    // Constructor that takes the app context and creates a database helper
+    private PantryDatabaseHelper dbHelper;// db helper to access db
+    // Constructor that take app context and creates db helper
     public RecipeDAO(Context context) {
-        // We're initializing the database helper so we can perform database operations
-        dbHelper = new PantryDatabaseHelper(context);
+        dbHelper = new PantryDatabaseHelper(context); // Initialize db helper
     }
-
-    // ADD a new recipe to the database
+    // Add new recipe to the database
     public long addRecipe(Recipes recipe) {
-        // We're opening a writable database connection to insert data
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase(); // Opening db to add data
 
-        // ContentValues is like a container that holds column names and their values
-        // SQLite uses this to understand what data to insert
-        ContentValues values = new ContentValues();
-
-        // We're putting the recipe name into the container with the column name "recipe_name"
+        ContentValues values = new ContentValues(); // Container to hold info
+        // Adding recipe name, description, ingredient list and recipe method to container
         values.put("recipe_name", recipe.getName());
-
-        // We're putting the recipe description into the container
         values.put("description", recipe.getDescription());
-
-        // We're putting the ingredient list (formatted as "ingredientName:quantity:unit") into the container
         values.put("ingredient_list", recipe.getIngredientList());
-
-        // We're putting the cooking method into the container
         values.put("method", recipe.getMethod());
-
-        // We're inserting the recipe into the "recipes" table and getting back the row ID
-        // If insertion fails, it returns -1
+        // Insert recipe into recipes table and get row ID, -1 if fails
         long recipeId = db.insert("recipes", null, values);
-
-        // We're closing the database connection to free up resources
-        db.close();
-
-        // We're returning the ID of the newly inserted recipe
-        return recipeId;
+        db.close(); //Closes db
+        return recipeId; //Return ID on new inserted recipe
     }
-
-    // GET ALL recipes from the database
+    // Retrieve all recipes from db
     public List<Recipes> getAllRecipes() {
-        // We're opening a readable database connection to fetch data
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();// Connect to db
 
-        // We're creating an empty list to store all recipes we find
-        List<Recipes> recipesList = new ArrayList<>();
-
-        // We're querying the "recipes" table and getting back all rows as a cursor
-        // A cursor is like a pointer that moves through each row of data
+        List<Recipes> recipesList = new ArrayList<>(); // Creating an empty list to store all recipes
+        // Using cursor to iterate over reeciper and retrive all rows
         Cursor cursor = db.query("recipes", null, null, null, null, null, null);
-
-        // We're checking if there are any recipes in the database
+        // Check if recipes are not empty
         if (cursor != null && cursor.moveToFirst()) {
-            // We're looping through each recipe row until there are no more
+            // loop over reecipes until end
             do {
-                // We're getting the column index for each piece of data we need
-                // The index tells us which position each column is at in the row
+                // Get index each required ingredient requirements
                 int idIndex = cursor.getColumnIndex("recipe_id");
                 int nameIndex = cursor.getColumnIndex("recipe_name");
                 int descriptionIndex = cursor.getColumnIndex("description");
                 int ingredientListIndex = cursor.getColumnIndex("ingredient_list");
                 int methodIndex = cursor.getColumnIndex("method");
 
-                // We're extracting the actual values from the current row using the indexes
+                // Get actual values from required recipe
                 int id = cursor.getInt(idIndex);
                 String name = cursor.getString(nameIndex);
-                String description = cursor.getString(descriptionIndex);
+                String description =cursor.getString(descriptionIndex);
                 String ingredientList = cursor.getString(ingredientListIndex);
                 String method = cursor.getString(methodIndex);
 
-                // We're creating a new Recipes object with the data we extracted
-                // We're passing all 5 required parameters including method
+                // Creating a new recipe object with information required
                 Recipes recipe = new Recipes(id, name, description, ingredientList, method);
 
-                // We're adding this recipe to our list
+                // Add recipe to our list
                 recipesList.add(recipe);
 
-            } while (cursor.moveToNext()); // We're moving to the next row and repeating
+            } while (cursor.moveToNext()); // Helps with iteration
         }
 
-        // We're closing the cursor to free up memory
+        //Close cusror to close memory
         if (cursor != null) {
             cursor.close();
         }
+        db.close(); // Close db conncetion
 
-        // We're closing the database connection
-        db.close();
-
-        // We're returning the list of all recipes we found
-        return recipesList;
+        return recipesList; // return list with recipes found
     }
 
-    // GET a single recipe by its ID
+    // Get single recipe
     public Recipes getRecipeById(int recipeId) {
-        // We're opening a readable database connection
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // We're setting up a WHERE clause to find only the recipe with this specific ID
-        // The ? is a placeholder that prevents SQL injection attacks (a security measure)
+        SQLiteDatabase db = dbHelper.getReadableDatabase(); // Open db connection
+
+        // A where clause to find recipr with specific ID
         String selection = "recipe_id = ?";
 
-        // We're putting the actual recipe ID into an array for the query
+        //Add the actual recipe id into an array for the query
         String[] selectionArgs = {String.valueOf(recipeId)};
 
-        // We're querying the "recipes" table with our WHERE clause and getting back a cursor
+        // Querying the recipes table with our WHERE clause and getting back a cursor
         Cursor cursor = db.query("recipes", null, selection, selectionArgs, null, null, null);
-
-        // We're creating a null recipe object in case we don't find anything
+        // If nothing is found
         Recipes recipe = null;
 
-        // We're checking if we found a recipe
+        // Checking whether recipe found
         if (cursor != null && cursor.moveToFirst()) {
-            // We're getting the column indexes for each piece of data
+            // Getting the column indexes for data
             int idIndex = cursor.getColumnIndex("recipe_id");
             int nameIndex = cursor.getColumnIndex("recipe_name");
             int descriptionIndex = cursor.getColumnIndex("description");
             int ingredientListIndex = cursor.getColumnIndex("ingredient_list");
             int methodIndex = cursor.getColumnIndex("method");
 
-            // We're extracting the values from the row
+            // Getting values from the row
             int id = cursor.getInt(idIndex);
             String name = cursor.getString(nameIndex);
             String description = cursor.getString(descriptionIndex);
             String ingredientList = cursor.getString(ingredientListIndex);
             String method = cursor.getString(methodIndex);
 
-            // We're creating a new Recipes object with the data we found
-            // We're passing all 5 required parameters including method
+            // Create recipe object with data that we collected
             recipe = new Recipes(id, name, description, ingredientList, method);
         }
 
-        // We're closing the cursor to free up memory
         if (cursor != null) {
-            cursor.close();
+            cursor.close(); // Close cursor to save memory
         }
 
-        // We're closing the database connection
-        db.close();
+        db.close(); // Closing db conncetion
 
-        // We're returning the recipe we found (or null if we didn't find it)
+        // return recipe
         return recipe;
     }
 
-    // UPDATE an existing recipe in the database
+    // Update existing recipe in the database
     public int updateRecipe(Recipes recipe) {
-        // We're opening a writable database connection to update data
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        // ContentValues is the container holding the updated data
+        SQLiteDatabase db = dbHelper.getWritableDatabase(); // Opening db connection
+
+        // Create container for holding updated data
         ContentValues values = new ContentValues();
 
-        // We're putting the updated recipe name into the container
+        //Adding updated recipe name, description, ingredients, and method into a container
         values.put("recipe_name", recipe.getName());
-
-        // We're putting the updated description into the container
         values.put("description", recipe.getDescription());
-
-        // We're putting the updated ingredient list into the container
         values.put("ingredient_list", recipe.getIngredientList());
-
-        // We're putting the updated method into the container
         values.put("method", recipe.getMethod());
 
-        // We're setting up a WHERE clause to update only the recipe with this specific ID
-        String selection = "recipe_id = ?";
+        String selection = "recipe_id = ?"; // A where clause to update the recipe with a unique id only
 
-        // We're putting the recipe ID into an array for the update query
-        String[] selectionArgs = {String.valueOf(recipe.getId())};
+        String[] selectionArgs = {String.valueOf(recipe.getId())}; // Add recipe id into array for update query
 
-        // We're updating the "recipes" table and getting back the number of rows affected
-        int rowsAffected = db.update("recipes", values, selection, selectionArgs);
-
-        // We're closing the database connection
-        db.close();
-
-        // We're returning the number of rows updated (0 if the recipe wasn't found, 1 if successful)
-        return rowsAffected;
+        int rowsAffected = db.update("recipes", values, selection, selectionArgs); // Update recipe table for update row only
+        db.close(); // Close db connection
+        return rowsAffected; // Return number of rows updated
     }
 
-    // DELETE a recipe from the database
+    // Delete recipe from the db
     public int deleteRecipe(int recipeId) {
-        // We're opening a writable database connection to delete data
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        // We're setting up a WHERE clause to delete only the recipe with this specific ID
-        String selection = "recipe_id = ?";
+        SQLiteDatabase db = dbHelper.getWritableDatabase(); // Opening db connection
 
-        // We're putting the recipe ID into an array for the delete query
-        String[] selectionArgs = {String.valueOf(recipeId)};
+        String selection = "recipe_id = ?"; // Setting up a where clause to delete recipe with specific id
 
-        // We're deleting from the "recipes" table and getting back the number of rows deleted
-        int rowsDeleted = db.delete("recipes", selection, selectionArgs);
+        String[] selectionArgs = {String.valueOf(recipeId)}; // Add recipe id into array for the delete query
 
-        // We're closing the database connection
-        db.close();
+        int rowsDeleted = db.delete("recipes", selection, selectionArgs); // Deleting recipes table and getting the number of rows deleted
 
-        // We're returning the number of rows deleted (0 if nothing was deleted, 1 if successful)
+        db.close(); // Close the db connection
         return rowsDeleted;
     }
 }

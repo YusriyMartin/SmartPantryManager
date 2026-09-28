@@ -1,5 +1,4 @@
 package com.yusry.smartpantrymanager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -11,22 +10,12 @@ import com.yusry.smartpantrymanager.database.IngredientDAO;
 import com.yusry.smartpantrymanager.database.PantryDatabaseHelper;
 import com.yusry.smartpantrymanager.models.Ingredient;
 
-/**
- * AddEditIngredientActivity - allows user to add a new ingredient or edit an existing one.
- * This screen has input fields for ingredient name, quantity, and unit (e.g., kg, lbs, etc.).
- */
+// Allow users to add or edit ingredients
 public class AddEditIngredientActivity extends AppCompatActivity {
-
-    // Reference to the database helper so we can access the database
-    private PantryDatabaseHelper dbHelper;
-
-    // Reference to the DAO so we can save/update ingredients
-    private IngredientDAO ingredientDAO;
-
-    // Reference to the ingredient ID we're editing (-1 means we're adding a new one)
-    private int ingredientId;
-
-    // UI References - these are the input fields user will type into
+    private PantryDatabaseHelper dbHelper; // reference db helper to access db
+    private IngredientDAO ingredientDAO; // Reference to DAO to save and update ingredients
+    private int ingredientId; //Reference to ingredients ID
+// References for UI, when adding text, values or clicking buttons
     private EditText etIngredientName;
     private EditText etQuantity;
     private Spinner spinnerUnit;
@@ -35,148 +24,108 @@ public class AddEditIngredientActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Call parent onCreate to initialize the activity
-        super.onCreate(savedInstanceState);
-        // Load the layout for this activity from activity_main.xml
-        setContentView(R.layout.activity_add_edit_ingredient);
 
-        // Initialize the database helper so we can work with the database
-        dbHelper = new PantryDatabaseHelper(this);
-        // Initialize the DAO so we can save/update ingredient data
-        ingredientDAO = new IngredientDAO(dbHelper);
+        super.onCreate(savedInstanceState); // Call parent onCreate
+        setContentView(R.layout.activity_add_edit_ingredient); //loads layout
 
-        // Find and store reference to the ingredient name input field
+        dbHelper = new PantryDatabaseHelper(this); // Initialize db helper to work with db
+        ingredientDAO = new IngredientDAO(dbHelper); // Initialize DAO to save and update ingredients
+
+        // get and store references to ingredient name, quantity, unit,save btn and cancel btn
         etIngredientName = findViewById(R.id.etIngredientName);
-        // Find and store reference to the quantity input field
         etQuantity = findViewById(R.id.etQuantity);
-        // Find and store reference to the unit dropdown spinner
         spinnerUnit = findViewById(R.id.spinnerUnit);
-        // Find and store reference to the Save button
         btnSave = findViewById(R.id.btnSave);
-        // Find and store reference to the Cancel button
         btnCancel = findViewById(R.id.btnCancel);
 
-        // Set up the unit spinner with common measurement units
-        setupUnitSpinner();
+        setupUnitSpinner(); // Create unit spinner
 
-        // Get the ingredient ID from the intent that launched this activity
-        // The MainActivity passes "ingredient_id" extra: -1 for new, or the ID for editing
-        ingredientId = getIntent().getIntExtra("ingredient_id", -1);
-
-        // If ingredientId is NOT -1, we're editing an existing ingredient, so load its data
+        ingredientId = getIntent().getIntExtra("ingredient_id", -1); // Get ingredient ID from intent that launched this activity
         if (ingredientId != -1) {
-            // Load the ingredient from database and populate the form fields
-            loadIngredientData();
+
+            loadIngredientData(); // load data
         }
+        btnSave.setOnClickListener(v -> saveIngredient()); // When user clicks save btn, ingredients saved to db
 
-        // When user clicks Save button, save the ingredient to database
-        btnSave.setOnClickListener(v -> saveIngredient());
-
-        // When user clicks Cancel button, just go back without saving
-        btnCancel.setOnClickListener(v -> finish());
+        btnCancel.setOnClickListener(v -> finish()); // When user clicks cancel, exit out
     }
 
-    /**
-     * setupUnitSpinner - sets up the dropdown list of measurement units.
-     * Common units like kg, grams, liters, etc.
-     */
+
+    // Setting up spinner. Creates drop down list of units of measurement for ingredients
     private void setupUnitSpinner() {
-        // Create an array of measurement units that user can choose from
+        // Create an array of measurement units
         String[] units = {"kg", "grams", "liters", "ml", "cups", "tablespoons", "teaspoons", "pieces", "lbs"};
 
-        // Create an adapter that will display these units in the spinner dropdown
+        // Create an adapter to display units in the spinner dropdown
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, units);
         // Tell the adapter what layout to use when showing the dropdown list
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner so it displays the units
+        // Apply adapter to spinner
         spinnerUnit.setAdapter(adapter);
     }
 
-    /**
-     * loadIngredientData - loads existing ingredient data from database and fills the form fields.
-     * This only runs when user is EDITING an ingredient (not adding a new one).
-     */
+    // load existing ingredient data from db and fills form fields
     private void loadIngredientData() {
-        // Get the ingredient from database using its ID
-        Ingredient ingredient = ingredientDAO.getIngredientById(ingredientId);
 
-        // If we found the ingredient (not null), fill the form with its data
+        Ingredient ingredient = ingredientDAO.getIngredientById(ingredientId); // Get ingredients from db by id
+
+        // Checking whether ingredient found or not
         if (ingredient != null) {
-            // Display the ingredient name in the name input field
-            etIngredientName.setText(ingredient.getName());
-            // Display the quantity in the quantity input field
-            etQuantity.setText(String.valueOf(ingredient.getQuantity()));
+            etIngredientName.setText(ingredient.getName()); // Display ingredient name in input field
+            etQuantity.setText(String.valueOf(ingredient.getQuantity())); // Display qty of ingredient in input field
 
-            // Find the index of the current unit in the spinner dropdown and select it
-            ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinnerUnit.getAdapter();
+            ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinnerUnit.getAdapter(); // finds index of current unit in spinner from dropdown, selects it
             int unitPosition = adapter.getPosition(ingredient.getUnit());
-            // Set the spinner to show the current unit
-            spinnerUnit.setSelection(unitPosition);
+            spinnerUnit.setSelection(unitPosition); // Spinner to show current unit
         }
     }
 
-    /**
-     * saveIngredient - saves the ingredient data to database.
-     * This runs when user clicks the Save button.
-     */
+    // Saves ingredient data to db
     private void saveIngredient() {
         // Get the ingredient name that user typed into the input field
-        String name = etIngredientName.getText().toString().trim();
-        // Get the quantity that user typed (convert from text to number)
-        String quantityText = etQuantity.getText().toString().trim();
-        // Get the unit that user selected from the dropdown
-        String unit = spinnerUnit.getSelectedItem().toString();
+        String name = etIngredientName.getText().toString().trim(); // Get ingredient name from input field
+        String quantityText = etQuantity.getText().toString().trim(); // Get qty from input field
+        String unit = spinnerUnit.getSelectedItem().toString(); // Get unit
 
-        // Check if user left the name field empty - if so, show error and don't save
+        // Check whether ingredient name empty, display message
         if (name.isEmpty()) {
-            // Show error message to user (they didn't enter a name)
-            etIngredientName.setError("Please enter ingredient name");
-            return; // Stop the save operation
+            etIngredientName.setError("Hey Chef! Don't forget to your ingredient...");
+            return;
         }
-
-        // Check if user left the quantity field empty - if so, show error and don't save
+        // Check whether qty is empty, display message
         if (quantityText.isEmpty()) {
-            // Show error message to user (they didn't enter a quantity)
-            etQuantity.setError("Please enter quantity");
-            return; // Stop the save operation
+            etQuantity.setError("Hey Chef! Don't forget to add your quantity...");
+            return;
         }
+        double quantity = Double.parseDouble(quantityText); // Convert qty text to double
 
-        // Convert the quantity text to a number (double) so we can store it
-        double quantity = Double.parseDouble(quantityText);
-
-        // If ingredientId is -1, we're ADDING a new ingredient
+        // If statement checks whether -1, if -1 we add new ingredient
         if (ingredientId == -1) {
-            // Create a new Ingredient object with the user's input
+
+            // Create a new Ingredient object with the user input
             Ingredient newIngredient = new Ingredient();
-            // Set the name property to what user typed
+
+            // Setting to what user added
             newIngredient.setName(name);
-            // Set the quantity property to the number they entered
             newIngredient.setQuantity(quantity);
-            // Set the unit property to what they selected from dropdown
             newIngredient.setUnit(unit);
 
-            // Save the new ingredient to database using the DAO
+            // Save new ingredient to database using the DAO
             ingredientDAO.addIngredient(newIngredient);
         } else {
-            // We're EDITING an existing ingredient, so load it, update it, and save it back
-            // Get the ingredient from database using its ID
+            // Get ingredient from db by id
             Ingredient existingIngredient = ingredientDAO.getIngredientById(ingredientId);
 
-            // Make sure we found the ingredient (it should exist if we're editing)
+            // Check whether ingredient found
             if (existingIngredient != null) {
-                // Update the name with what user typed
-                existingIngredient.setName(name);
-                // Update the quantity with what user entered
-                existingIngredient.setQuantity(quantity);
-                // Update the unit with what user selected
-                existingIngredient.setUnit(unit);
+                existingIngredient.setName(name); //Update with user input
+                existingIngredient.setQuantity(quantity);// Update qty
+                existingIngredient.setUnit(unit); // Update unit
 
-                // Save the updated ingredient back to database
+                // Sav updated ingredient back to database
                 ingredientDAO.updateIngredient(existingIngredient);
             }
         }
-
-        // Close this activity and go back to MainActivity
-        finish();
+        finish(); // Close, go back to MainActvity
     }
 }

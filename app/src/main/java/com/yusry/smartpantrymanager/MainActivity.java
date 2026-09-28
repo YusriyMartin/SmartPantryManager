@@ -1,5 +1,4 @@
 package com.yusry.smartpantrymanager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -11,86 +10,57 @@ import com.yusry.smartpantrymanager.database.IngredientDAO;
 import com.yusry.smartpantrymanager.database.PantryDatabaseHelper;
 import com.yusry.smartpantrymanager.database.PreloadedRecipes;
 
-/**
- * MainActivity - the main screen showing the list of ingredients in the pantry.
- * This is where users see all their ingredients and can add new ones.
- */
+// Main screen shows list
 public class MainActivity extends AppCompatActivity {
 
-    // RecyclerView for displaying the list of ingredients
+    // Declare RecyclerView
     private RecyclerView recyclerView;
-
     // Adapter that connects ingredient data to the RecyclerView display
     private IngredientAdapter ingredientAdapter;
-
-    // Database helper to manage SQLite connection
+    // Database helper to manage db conncetion
     private PantryDatabaseHelper databaseHelper;
-
-    // DAO object to perform ingredient database operations (add, read, update, delete)
+    // Creating DAO (Data Access Object) for CRUD operations
     private IngredientDAO ingredientDAO;
-
-    // Button for adding new ingredients to the pantry
-    private Button btnAddIngredient;
+    private Button btnAddIngredient; // Declare button for adding new ingredients to pantry
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Call parent's onCreate to initialize the activity properly
-        super.onCreate(savedInstanceState);
 
-        // Set the layout file (activity_main.xml) to display on screen
-        setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState); // Call parent onCreate
 
-        // Load 20 pre-made recipes into the database on app's first launch (only runs once)
-        PreloadedRecipes.loadRecipesIntoDB(this);
+        setContentView(R.layout.activity_main); // Sets layout file to display screen
+        PreloadedRecipes.loadRecipesIntoDB(this); // Loads preloaded recipes
 
-        // Initialize the database helper - this gives us access to SQLite database
-        databaseHelper = new PantryDatabaseHelper(this);
+        databaseHelper = new PantryDatabaseHelper(this); // Initialize db helper to access db
 
-        // Initialize the DAO - pass the database HELPER (not the database itself)
-        // The DAO will get the database connection from the helper when needed
-        ingredientDAO = new IngredientDAO(databaseHelper);
+        ingredientDAO = new IngredientDAO(databaseHelper); // Initialize DAO to pass the database helper
 
-        // Find the RecyclerView from the XML layout and store it in our recyclerView variable
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView); // Find RecyclerView, store in recycleview variable
 
-        // Create a LinearLayoutManager to display ingredients in a vertical list
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this); // Create LinearLayoutManager to display ingredients in vertical list
 
-        // Attach the layout manager to the RecyclerView so it knows how to arrange items
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager); //Attach layout manager to RecyclerView
 
-        // Get all ingredients from the database and create an adapter to display them
-        // Pass 3 parameters: ingredients list, the DAO (for delete operations), and this activity (context)
-        ingredientAdapter = new IngredientAdapter(ingredientDAO.getAllIngredients(), ingredientDAO, this);
+        ingredientAdapter = new IngredientAdapter(ingredientDAO.getAllIngredients(), ingredientDAO, this); // Get all ingredients from db and create adapter to display it
 
-        // Attach the adapter to the RecyclerView - now the RecyclerView knows what to display
-        recyclerView.setAdapter(ingredientAdapter);
+        recyclerView.setAdapter(ingredientAdapter); // Attach adapter to RecycleView
 
-        // Find the "Add Ingredient" button from the XML layout
-        btnAddIngredient = findViewById(R.id.btnAddIngredient);
+        btnAddIngredient = findViewById(R.id.btnAddIngredient); // Find Add Ingredient button
 
-        // When user clicks "Add Ingredient" button, launch AddEditIngredientActivity
+        // Launch AddEditIngredientActivity when add ingredient is clicked
         btnAddIngredient.setOnClickListener(v -> {
-            // Create an Intent to navigate to AddEditIngredientActivity
-            Intent intent = new Intent(MainActivity.this, AddEditIngredientActivity.class);
+            Intent intent = new Intent(MainActivity.this, AddEditIngredientActivity.class); // Create intent to navigate to AddEditIngredientActivity
 
-            // Put an extra value "ingredient_id" with -1 to signal this is adding a NEW ingredient (not editing)
-            intent.putExtra("ingredient_id", -1);
+            intent.putExtra("ingredient_id", -1); // Add extra ingredient_id, with -1 to show that adding new ingredient and not editing
 
-            // Start the activity - this opens the Add Ingredient screen
-            startActivity(intent);
+            startActivity(intent); // Start Activtiy
         });
     }
-
     @Override
     protected void onResume() {
-        // Call parent's onResume to handle activity lifecycle properly
-        super.onResume();
-
-        // Refresh the ingredient list when user returns to this screen (after adding/editing)
-        // This ensures we see any new ingredients that were added
+        super.onResume(); // Call parent onResume
+        //  Refresh ingredient list after editing or adding ingredient
         ingredientAdapter = new IngredientAdapter(ingredientDAO.getAllIngredients(), ingredientDAO, this);
-
         // Update the adapter so RecyclerView shows the refreshed data
         recyclerView.setAdapter(ingredientAdapter);
     }

@@ -11,21 +11,15 @@ import com.yusry.smartpantrymanager.R;
 import com.yusry.smartpantrymanager.RecipeDetailActivity;
 import com.yusry.smartpantrymanager.models.Recipes;
 import java.util.List;
-
-
 // For displaying recipes in RecycleView
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
-
     private List<Recipes> recipeList; // Recipe List
-
     private Context context; //Context required to lauch oyher activities
-
     // Constructor initialize adapter with recipes
     public RecipeAdapter(List<Recipes> recipeList, Context context) {
         this.recipeList = recipeList;
         this.context = context;
     }
-
     // Called when recylerview needs new viewholder
     @NonNull
     @Override
@@ -35,11 +29,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 .inflate(R.layout.recipe_item, parent, false);
         return new RecipeViewHolder(itemView);
     }
-
     // Method for displaying a recipe at specific position in Recyclerview
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-
         Recipes recipe = recipeList.get(position); // Get recipe from list
         holder.recipeNameTextView.setText(recipe.getName()); // Add recipe name into text view.
         holder.itemView.setOnClickListener(v ->
@@ -49,19 +41,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             context.startActivity(intent);
         });
     }
-
     // Returns total number of recipes in list
     @Override
     public int getItemCount() {
         return recipeList.size();
     }
-
     // Helper class for holding references in a single recipe row
     public static class RecipeViewHolder extends RecyclerView.ViewHolder {
-
         // Showa recipe name
         public TextView recipeNameTextView;
-
         // Constructor to find views inside row and store them
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);

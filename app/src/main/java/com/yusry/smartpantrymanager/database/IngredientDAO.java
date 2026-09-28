@@ -14,7 +14,6 @@ public class IngredientDAO {
     public IngredientDAO(PantryDatabaseHelper dbHelper) {
         this.dbHelper = dbHelper; // stores db helper for later
     }
-
     // Function to save new ingredients to db
     public void addIngredient(Ingredient ingredient) {
         SQLiteDatabase db = dbHelper.getWritableDatabase(); // Getting access to db
@@ -35,7 +34,6 @@ public class IngredientDAO {
             db.close(); //Close db connection
         }
     }
-
     // Gets all ingredients form db
     public List<Ingredient> getAllIngredients() {
         List<Ingredient> ingredientList = new ArrayList<>(); // Creating empty list to store ingredients
@@ -62,7 +60,6 @@ public class IngredientDAO {
         }
         return ingredientList; // return ingredients
     }
-
     // Gets single ingredient from db
     public Ingredient getIngredientById(int id) {
         // Get readable access to the database
@@ -91,7 +88,6 @@ public class IngredientDAO {
         }
         return null; // return null if no ingredients
     }
-
     // Updating existing ingredients in db
     public void updateIngredient(Ingredient ingredient) {
 
@@ -119,7 +115,6 @@ public class IngredientDAO {
             db.close(); // Close db
         }
     }
-
     // Removes ingredients from the database
     public void deleteIngredient(int id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase(); // Access the db
@@ -138,7 +133,6 @@ public class IngredientDAO {
             db.close();
         }
     }
-
     // Helper method, returns today's date, to track when ingredients were added
     private String getCurrentDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()); //Date formatter to get specific format

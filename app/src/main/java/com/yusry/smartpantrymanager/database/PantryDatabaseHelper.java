@@ -4,38 +4,30 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class PantryDatabaseHelper extends SQLiteOpenHelper {
-
     // Configuring database
     private static final String DATABASE_NAME = "SmartPantry.db"; // File name stored on device
     private static final int DATABASE_VERSION = 1; // version 1
-
     // Declaring tables for ingredients, recipes, and ingredients
     public static final String TABLE_INGREDIENTS = "ingredients";
     public static final String TABLE_RECIPES = "recipes";
     public static final String TABLE_RECIPE_INGREDIENTS = "recipe_ingredients";
-
-
     // Ingredient table: stores Ingredient ID, Ingredient name, qty, unit and expiry date
     public static final String COLUMN_INGREDIENT_ID = "ingredient_id";
     public static final String COLUMN_INGREDIENT_NAME = "name";
     public static final String COLUMN_QUANTITY = "quantity";
     public static final String COLUMN_UNIT = "unit";
     public static final String COLUMN_EXPIRY_DATE = "expiry_date";
-
     // Recipe table: stores Recipe ID, Recipe name, Instruction, and recipe image
     public static final String COLUMN_RECIPE_ID = "recipe_id";
     public static final String COLUMN_RECIPE_NAME = "recipe_name";
     public static final String COLUMN_INSTRUCTIONS = "instructions";
     public static final String COLUMN_IMAGE_URL = "image_url";
-
     // Recipe Ingredient table (juntion table): stores recipe ingredient ID, recipe ID as foreign key, ingredient name, quantity, and unit
-
     public static final String COLUMN_RECIPE_INGREDIENT_ID = "recipe_ingredient_id";
     public static final String COLUMN_RECIPE_FK = "recipe_id";
     public static final String COLUMN_RECIPE_ING_NAME = "ingredient_name";
     public static final String COLUMN_RECIPE_ING_QUANTITY = "quantity";
     public static final String COLUMN_RECIPE_ING_UNIT = "unit";
-
     // Constructor for when the app creates a database helper instance
     public PantryDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
