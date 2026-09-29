@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="80dp"
+    tools:context=".MainActivity">
 
     <!-- Header -->
     <TextView
+        android:id="@+id/tvHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
+        android:layout_alignParentTop="true"
+        android:text="@string/app_title"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:padding="16dp"
-        android:gravity="center"
         android:textColor="@color/black" />
 
-    <!-- RecyclerView for ingredients list -->
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvHeader"
+        android:layout_above="@id/btnAddIngredient"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
 
     <!-- Add Ingredient Button -->
     <Button
         android:id="@+id/btnAddIngredient"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_add_ingredient"
-        android:layout_margin="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="@string/add_ingredient"
+        android:textSize="18sp"
         android:textColor="@color/white"
-        android:background="@drawable/rounded_add_button" />
+        android:backgroundTint="@color/green" />
 
-</LinearLayout>
-
+</RelativeLayout>
