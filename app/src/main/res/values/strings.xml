@@ -43,4 +43,39 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="ingredient_name_hint">Ingredient Name (Eg. Eggs)</string>
+    <string name="quantity_hint">Quantity (Eg. 5)</string>
+    <string name="unit_hint">Unit of Measurement</string>
+    <string name="add_ingredient_title">Add Ingredient</string>
+    <string name="save_ingredient_btn">Save Ingredient</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="app_title">Smart Pantry</string>
+    <string name="empty_pantry_message">Hey there chef!It looks like your pantry is empty. Click the plus button below to add Ingredients</string>
+    <string name="btn_add_ingredient">+ Add Ingredient</string>
+    <string name="recipe_name_placeholder">Recipe Name</string>
+    <string name="ingredients_placeholder">Ingredients:\nPlaceholder</string>
+    <string name="method_placeholder">Method:\nPlaceholder</string>
+    <string name="btn_back_to_recipes">Back to Recipes</string>
+    <string name="menu">Menu</string>
+    <string name="btn_edit">Edit</string>
+    <string name="btn_delete">Delete</string>
+    <string name="ingredient_name_placeholder">Eggs</string>
+    <string name="quantity_unit_placeholder">5 kg</string>
+    <string name="my_recipe_list_title">My Recipe List</string>
+    <string name="match_counter_default">0/20 matches</string>
+    <string name="empty_recipes_title">Oops chef!</string>
+    <string name="empty_recipes_message">It looks like no recipes match your pantry. Let\'s add some more ingredients</string>
+    <string name="btn_delete_ingredient">Delete</string>
+    <string name="btn_edit_ingredient">Edit</string>
+    <string name="settings_title">Settings</string>
+    <string name="notify_expiring">Notify when expiring?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="unit_preference">Unit of Measurement</string>
+    <string name="save">Save</string>
+
+
+
+
 </resources>
+

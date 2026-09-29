@@ -6,16 +6,14 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <!--Adding basice toolbar and back button-->
+    <!-- toolbar and back buttom -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white">
+        android:background="@android:color/white" />
 
-    </androidx.appcompat.widget.Toolbar>
-
-    <!-- Title and match counter section -->
+    <!-- title and match counter -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Recipe List"
+            android:text="@string/my_recipe_list_title"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -36,12 +34,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="0/20 matches"
-            android:textColor="#666666"
+            android:text="@string/match_counter_default"
+            android:textColor="@color/text_secondary"
             android:textSize="14sp" />
     </LinearLayout>
 
-    <!-- Empty state container -->
+    <!-- Displays when no recipes match -->
     <LinearLayout
         android:id="@+id/emptyStateContainer"
         android:layout_width="match_parent"
@@ -55,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="Oops chef!"
+            android:text="@string/empty_recipes_title"
             android:textColor="@android:color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -65,18 +63,18 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="It looks like no recipes match your pantry. Let's add some more ingredients"
-            android:textColor="#666666"
+            android:text="@string/empty_recipes_message"
+            android:textColor="@color/text_secondary"
             android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnAddFromRecipes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Ingredient" />
+            android:text="@string/btn_add_ingredient" />
     </LinearLayout>
 
-    <!-- RecyclerView for recipes -->
+    <!-- recipe list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRecipes"
         android:layout_width="match_parent"

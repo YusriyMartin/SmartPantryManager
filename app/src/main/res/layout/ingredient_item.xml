@@ -1,60 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:padding="12dp"
-    android:gravity="center_vertical">
+    android:background="@color/white">
 
-    <!-- Ingredient Name (Left) -->
+    <!-- Ingredient Name -->
     <TextView
         android:id="@+id/tvIngredientName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/btnDelete"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black" />
+        android:textColor="@color/black" />
 
-    <!-- Quantity and Unit (Center) -->
+    <!-- Quantity and Unit -->
     <TextView
         android:id="@+id/tvQuantityUnit"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvIngredientName"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/btnDelete"
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
-        android:layout_marginEnd="16dp" />
+        android:textColor="@color/text_secondary" />
 
-    <!-- Delete Button (Red X) -->
+    <!-- Delete Button -->
     <ImageButton
         android:id="@+id/btnDelete"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:contentDescription="Delete"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_delete"
+        android:background="?attr/selectableItemBackground"
         android:scaleType="centerInside"
-        android:background="?attr/selectableItemBackground" />
+        android:contentDescription="@string/btn_delete_ingredient" />
 
-    <!-- Edit Button (Pencil) -->
+    <!-- Edit Button -->
     <ImageButton
         android:id="@+id/btnEdit"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@android:drawable/ic_menu_edit"
-        android:contentDescription="Edit"
-        android:scaleType="centerInside"
+        android:layout_toStartOf="@+id/btnDelete"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_edit"
         android:background="?attr/selectableItemBackground"
-        android:layout_marginStart="8dp" />
+        android:scaleType="centerInside"
+        android:contentDescription="@string/btn_edit_ingredient" />
 
-    <!-- Add Button (Plus) -->
+    <!-- Add Button -->
     <ImageButton
         android:id="@+id/btnAdd"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@android:drawable/ic_menu_add"
-        android:contentDescription="Add"
-        android:scaleType="centerInside"
+        android:layout_toStartOf="@+id/btnEdit"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_add"
         android:background="?attr/selectableItemBackground"
-        android:layout_marginStart="8dp" />
+        android:scaleType="centerInside"
+        android:contentDescription="@string/btn_add_ingredient" />
 
-</LinearLayout>
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tvQuantityUnit"
+        android:layout_marginTop="8dp"
+        android:background="@color/divider_color" />
+
+</RelativeLayout>
+

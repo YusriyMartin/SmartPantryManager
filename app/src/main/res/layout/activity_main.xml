@@ -3,20 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/white">
 
-    <!-- Title: "Smart Pantry" -->
+    <!-- Header -->
     <TextView
-        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Smart Pantry"
+        android:text="@string/app_name"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:padding="16dp"
         android:gravity="center"
-        android:layout_marginBottom="16dp" />
+        android:textColor="@color/black" />
 
-    <!-- RecyclerView for displaying ingredient list -->
+    <!-- RecyclerView for ingredients list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -28,7 +28,10 @@
         android:id="@+id/btnAddIngredient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="+ Add Ingredient"
-        android:textSize="16sp" />
+        android:text="@string/btn_add_ingredient"
+        android:layout_margin="16dp"
+        android:textColor="@color/white"
+        android:background="@drawable/rounded_add_button" />
 
 </LinearLayout>
+
