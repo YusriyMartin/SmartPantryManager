@@ -97,8 +97,7 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
         }
         return pantryMap;
     }
-
-    // check if all recipe ingredients exist in pantry with enough qty
+    // check if all recipe ingredients exist in pantry. Check name only
     private boolean canMakeRecipe(Recipes recipe, Map<String, Double> pantryMap) {
         String ingredientList = recipe.getIngredientList();
 
@@ -108,38 +107,21 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
 
         String[] recipeIngredients = ingredientList.split(",");
 
-        // verify each ingredient requirement
+        // loop through each ingredient, verify it's in pantry
         for (int i = 0; i < recipeIngredients.length; i++) {
-            String ingredient = recipeIngredients[i].trim();
-
-            // format: "flour (2)" or "tomato (500g)"
-            int bracketIndex = ingredient.indexOf("(");
-            if (bracketIndex == -1) {
-                return false; // skip malformed entries
+            String ingredientName = recipeIngredients[i].trim().toLowerCase();
+            // skip empty entries
+            if (ingredientName.isEmpty()) {
+                continue;
             }
-
-            String ingredientName = ingredient.substring(0, bracketIndex).trim().toLowerCase();
-            String quantityStr = ingredient.substring(bracketIndex + 1, ingredient.lastIndexOf(")")).trim();
-
-            // extract number from qty string
-            double requiredQty = 0;
-            try {
-                String[] parts = quantityStr.split("\\s+");
-                requiredQty = Double.parseDouble(parts[0]);
-            } catch (Exception e) {
-                return false; // couldnt parse, skip recipe
-            }
-
-            // pantry has enough of this ingredient?
-            Double pantryQty = pantryMap.get(ingredientName);
-            if (pantryQty == null || pantryQty < requiredQty) {
-                return false; // nope, missing or insuficient
+            // ingredient missing, recipe fails
+            if (!pantryMap.containsKey(ingredientName)) {
+                return false;
             }
         }
 
-        return true; // all good
+        return true;
     }
-
     private void updateUI() {
         int totalRecipes = recipeDAO.getAllRecipes().size();
         tvMatchCounter.setText(matchedRecipes.size() + "/" + totalRecipes + " matches");

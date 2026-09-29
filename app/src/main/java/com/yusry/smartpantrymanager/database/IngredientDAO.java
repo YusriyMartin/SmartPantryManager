@@ -1,4 +1,5 @@
 package com.yusry.smartpantrymanager.database;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,12 +9,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 public class IngredientDAO {
     private final PantryDatabaseHelper dbHelper; // Creating reference to database helper for db access
+
     // Constructor that runs when a new ingredient DAO (Data Access Object) required
     public IngredientDAO(PantryDatabaseHelper dbHelper) {
         this.dbHelper = dbHelper; // stores db helper for later
     }
+
     // Function to save new ingredients to db
     public void addIngredient(Ingredient ingredient) {
         SQLiteDatabase db = dbHelper.getWritableDatabase(); // Getting access to db
@@ -23,17 +27,17 @@ public class IngredientDAO {
             values.put("name", ingredient.getName());
             values.put("quantity", ingredient.getQuantity());
             values.put("unit", ingredient.getUnit());
-            values.put("date_added", getCurrentDate());
+            values.put("expiry_date", getCurrentDate());
             long result = db.insert("ingredients", null, values); //Insert value into ingredients table, retrieve ID back
             // If result is -1, display error messgae
-            if (result == -1)
-            {
+            if (result == -1) {
                 System.out.println("Unable to add that ingredient");
             }
         } finally {
             db.close(); //Close db connection
         }
     }
+
     // Gets all ingredients form db
     public List<Ingredient> getAllIngredients() {
         List<Ingredient> ingredientList = new ArrayList<>(); // Creating empty list to store ingredients
@@ -60,6 +64,7 @@ public class IngredientDAO {
         }
         return ingredientList; // return ingredients
     }
+
     // Gets single ingredient from db
     public Ingredient getIngredientById(int id) {
         // Get readable access to the database
@@ -67,7 +72,7 @@ public class IngredientDAO {
 
         try {
             // Query to find specific ingredient
-            Cursor cursor = db.query("ingredients", null, "id = ?", new String[]{String.valueOf(id)}, null, null, null);
+            Cursor cursor = db.query("ingredients", null, "ingredient_id = ?", new String[]{String.valueOf(id)}, null, null, null);
 
             // if statement to check if founs
             if (cursor.moveToFirst()) {
@@ -88,6 +93,7 @@ public class IngredientDAO {
         }
         return null; // return null if no ingredients
     }
+
     // Updating existing ingredients in db
     public void updateIngredient(Ingredient ingredient) {
 
@@ -101,10 +107,10 @@ public class IngredientDAO {
             values.put("name", ingredient.getName());
             values.put("quantity", ingredient.getQuantity());
             values.put("unit", ingredient.getUnit());
-            values.put("date_added", ingredient.getDateAdded());
+            values.put("expiry_date", ingredient.getDateAdded());
 
             // Update row in db where id equals ingredient ID
-            int rowsAffected = db.update("ingredients", values, "id = ?", new String[]{String.valueOf(ingredient.getId())}  //ID that must match
+            int rowsAffected = db.update("ingredients", values, "ingredient_id = ?", new String[]{String.valueOf(ingredient.getId())}  //ID that must match
             );
 
             // If 0, no row updated, display message
@@ -115,13 +121,14 @@ public class IngredientDAO {
             db.close(); // Close db
         }
     }
+
     // Removes ingredients from the database
     public void deleteIngredient(int id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase(); // Access the db
 
         try {
             // Delete the row from db base on ID
-            int rowsAffected = db.delete("ingredients", "id = ?", new String[]{String.valueOf(id)}
+            int rowsAffected = db.delete("ingredients", "ingredient_id = ?", new String[]{String.valueOf(id)}
             );
 
             // Check if o, if 0 then no row was deleted, display message
@@ -133,6 +140,7 @@ public class IngredientDAO {
             db.close();
         }
     }
+
     // Helper method, returns today's date, to track when ingredients were added
     private String getCurrentDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()); //Date formatter to get specific format

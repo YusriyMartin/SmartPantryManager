@@ -45,7 +45,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_EXPIRY_DATE + " TEXT)";
         db.execSQL(CREATE_INGREDIENTS_TABLE);
 
-        // Stores recipe metadata (name, instructions, image)
+// Updated error: Added descirption text colum so it matches Recipes.java
         String CREATE_RECIPES_TABLE = "CREATE TABLE " + TABLE_RECIPES + "" +
                 "(" +
                 COLUMN_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -81,3 +81,4 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 }
+
