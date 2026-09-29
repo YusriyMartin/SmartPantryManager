@@ -1,5 +1,6 @@
 package com.yusry.smartpantrymanager.database;
 import android.content.Context;
+import com.yusry.smartpantrymanager.database.PantryDatabaseHelper;
 import com.yusry.smartpantrymanager.models.Recipes;
 import java.util.ArrayList;
 import java.util.List;
@@ -158,7 +159,9 @@ public class PreloadedRecipes {
     // Creating method to load preloaded recipes into the database using ReceipeDAO (Data Access Object)
     public static boolean loadRecipesIntoDB(Context context) {
 
-        RecipeDAO recipeDAO = new RecipeDAO(context); // Creating an instance of RecipeDAO using context
+        // Creating a database helper
+        PantryDatabaseHelper dbHelper = new PantryDatabaseHelper(context);
+        RecipeDAO recipeDAO = new RecipeDAO(dbHelper);
         List<Recipes> existingRecipes = recipeDAO.getAllRecipes(); // Get all recipes
 
         // Check if recipes exist, whether empty, return if true

@@ -9,7 +9,7 @@
         android:id="@+id/tvHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Smart Pantry"
+        android:text="@string/app_pantry_title"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -23,73 +23,71 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/tvHeader"
-        android:layout_above="@id/actionBar"
+        android:layout_above="@id/btnAddIngredient"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="16dp" />
 
     <!-- Green Add Ingredient Button -->
     <Button
         android:id="@+id/btnAddIngredient"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="+ Add Ingredient"
+        android:text="@string/btn_add_ingredient"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:backgroundTint="@color/button_green"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="100dp"
-        android:layout_alignParentBottom="true" />
+        android:layout_marginBottom="70dp"
+        android:layout_above="@id/actionBar" />
 
     <!-- Floating Pill-shaped Action Bar -->
     <LinearLayout
         android:id="@+id/actionBar"
         android:layout_width="wrap_content"
-        android:layout_height="56dp"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:background="@drawable/rounded_pill_bg"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
-        <!-- Edit Button -->
         <ImageButton
             android:id="@+id/btnEdit"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@drawable/ic_edit"
-            android:scaleType="centerInside"
+            android:contentDescription="@string/btn_edit_ingredient"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Edit ingredient" />
+            android:layout_margin="10dp" />
 
-        <!-- Add Button -->
         <ImageButton
             android:id="@+id/btnAddAction"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@drawable/ic_add"
-            android:scaleType="centerInside"
+            android:contentDescription="@string/btn_add_ingredient_action"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Add ingredient" />
+            android:layout_margin="10dp" />
 
-        <!-- Delete Button -->
         <ImageButton
             android:id="@+id/btnDelete"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@drawable/ic_delete"
-            android:scaleType="centerInside"
+            android:contentDescription="@string/btn_delete_ingredient"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Delete ingredient" />
+            android:layout_margin="10dp" />
 
     </LinearLayout>
 
+
 </RelativeLayout>
-
-

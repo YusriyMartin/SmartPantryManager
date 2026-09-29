@@ -38,9 +38,16 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         holder.tvQuantityUnit.setText(quantityUnitText);
         // Handles deleting ingredients
         holder.btnDelete.setOnClickListener(v -> {
-            ingredientDAO.deleteIngredient(ingredient.getId());
-            ingredientList.remove(position);
-            notifyItemRemoved(position);
+            new androidx.appcompat.app.AlertDialog.Builder(activity)
+                    .setTitle("Delete this ingredient?")
+                    .setMessage("Chef, are you sure want to delete " + ingredient.getName() + "?")
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        ingredientDAO.deleteIngredient(ingredient.getId());
+                        ingredientList.remove(position);
+                        notifyItemRemoved(position);
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         });
         // Handles editing ingredients
         holder.btnEdit.setOnClickListener(v -> {

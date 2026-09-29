@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SmartPantryManager</string>
     <string name="action_settings">Settings</string>
@@ -50,8 +51,10 @@
     <string name="save_ingredient_btn">Save Ingredient</string>
     <string name="cancel_btn">Cancel</string>
     <string name="app_title">Smart Pantry</string>
-    <string name="empty_pantry_message">Hey there chef!It looks like your pantry is empty. Click the plus button below to add Ingredients</string>
+    <string name="app_pantry_title">Smart Pantry</string>
+    <string name="empty_pantry_message">Hey there chef! It looks like your pantry is empty. Click the plus button below to add Ingredients</string>
     <string name="btn_add_ingredient">+ Add Ingredient</string>
+    <string name="btn_add_ingredient_action">Add ingredient</string>
     <string name="recipe_name_placeholder">Recipe Name</string>
     <string name="ingredients_placeholder">Ingredients:\nPlaceholder</string>
     <string name="method_placeholder">Method:\nPlaceholder</string>
@@ -59,14 +62,14 @@
     <string name="menu">Menu</string>
     <string name="btn_edit">Edit</string>
     <string name="btn_delete">Delete</string>
+    <string name="btn_edit_ingredient">Edit ingredient</string>
+    <string name="btn_delete_ingredient">Delete ingredient</string>
     <string name="ingredient_name_placeholder">Eggs</string>
     <string name="quantity_unit_placeholder">5 kg</string>
     <string name="my_recipe_list_title">My Recipe List</string>
     <string name="match_counter_default">0/20 matches</string>
     <string name="empty_recipes_title">Oops chef!</string>
     <string name="empty_recipes_message">It looks like no recipes match your pantry. Let\'s add some more ingredients</string>
-    <string name="btn_delete_ingredient">Delete</string>
-    <string name="btn_edit_ingredient">Edit</string>
     <string name="settings_title">Settings</string>
     <string name="notify_expiring">Notify when expiring?</string>
     <string name="yes">Yes</string>
@@ -82,6 +85,7 @@
     <string name="suggested_recipes">Suggested Recipes</string>
     <string name="recipes_match_count">0/20 matches</string>
     <string name="add_more_ingredients">Add More Ingredients</string>
+
     <array name="unit_options">
         <item>Kg</item>
         <item>Lbs</item>

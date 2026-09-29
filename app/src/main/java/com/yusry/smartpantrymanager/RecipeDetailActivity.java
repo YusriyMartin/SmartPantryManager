@@ -42,7 +42,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
     // Create database helper and RecipeDAO (Data Access Object) to fetch recipe details
     private void setupDatabase() {
         dbHelper = new PantryDatabaseHelper(this); // Create db helper
-        recipeDAO = new RecipeDAO(this);  // Create RecipeDAO using context, fecth recipes from db
+        recipeDAO = new RecipeDAO(dbHelper);   // Create RecipeDAO using context, fecth recipes from db
     }
     // Configure toolbar with title and back button
     private void setupToolbar() {
