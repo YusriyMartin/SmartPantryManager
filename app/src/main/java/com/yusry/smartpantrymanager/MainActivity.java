@@ -5,6 +5,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.yusry.smartpantrymanager.adapters.IngredientAdapter;
 import com.yusry.smartpantrymanager.database.IngredientDAO;
 import com.yusry.smartpantrymanager.database.PantryDatabaseHelper;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     // Creating DAO (Data Access Object) for CRUD operations
     private IngredientDAO ingredientDAO;
     private Button btnAddIngredient; // Declare button for adding new ingredients to pantry
+    private BottomNavigationView bottomNav; // Declare BottomNavigationView for tab navigation
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,31 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(intent); // Start Activtiy
         });
+
+        // Initialize BottomNavigationView and set up tab listeners
+        bottomNav = findViewById(R.id.bottomNavigation);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+
+            // Check which tab was clicked
+            if (itemId == R.id.nav_pantry) {
+                // Already on Pantry screen, do nothing
+                return true;
+            } else if (itemId == R.id.nav_recipes) {
+                // Launch SuggestedRecipesActivity
+                Intent recipeIntent = new Intent(MainActivity.this, SuggestedRecipesActivity.class);
+                startActivity(recipeIntent);
+                return true;
+            } else if (itemId == R.id.nav_settings) {
+                // Launch SettingsActivity
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            }
+            return false;
+        });
     }
+
     @Override
     protected void onResume() {
         super.onResume(); // Call parent onResume

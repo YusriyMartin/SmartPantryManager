@@ -98,6 +98,7 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
         return pantryMap;
     }
     // check if all recipe ingredients exist in pantry. Check name only
+// check if all recipe ingredients exist in pantry. Extract name only, ignore qty
     private boolean canMakeRecipe(Recipes recipe, Map<String, Double> pantryMap) {
         String ingredientList = recipe.getIngredientList();
 
@@ -109,19 +110,31 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
 
         // loop through each ingredient, verify it's in pantry
         for (int i = 0; i < recipeIngredients.length; i++) {
-            String ingredientName = recipeIngredients[i].trim().toLowerCase();
+            String rawIngredient = recipeIngredients[i].trim();
+
             // skip empty entries
-            if (ingredientName.isEmpty()) {
+            if (rawIngredient.isEmpty()) {
                 continue;
             }
+            // extract just the name (before any opening paren or quantity)
+            String ingredientName = extractIngredientName(rawIngredient).toLowerCase();
             // ingredient missing, recipe fails
             if (!pantryMap.containsKey(ingredientName)) {
                 return false;
             }
         }
-
         return true;
     }
+
+    // extract ingredient name from "Name (qty unit)" format
+    private String extractIngredientName(String rawIngredient) {
+        int parenIndex = rawIngredient.indexOf("(");
+        if (parenIndex > 0) {
+            return rawIngredient.substring(0, parenIndex).trim();
+        }
+        return rawIngredient.trim();
+    }
+
     private void updateUI() {
         int totalRecipes = recipeDAO.getAllRecipes().size();
         tvMatchCounter.setText(matchedRecipes.size() + "/" + totalRecipes + " matches");
