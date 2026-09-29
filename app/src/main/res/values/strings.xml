@@ -77,5 +77,10 @@
     <string name="nav_recipes">Recipes</string>
     <string name="nav_settings">Settings</string>
     <string name="add_ingredient">+ Add Ingredient</string>
+    <string name="recipes_title">Available Recipes</string>
+    <string name="no_recipes_message">Oops chef! It looks like no recipes match your pantry. Let\'s add some more ingredients</string>
+    <string name="suggested_recipes">Suggested Recipes</string>
+    <string name="recipes_match_count">0/20 matches</string>
+    <string name="add_more_ingredients">Add More Ingredients</string>
 </resources>
 
