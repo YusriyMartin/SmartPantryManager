@@ -1,4 +1,4 @@
-package com.yusry.smartpantrymanager;
+package com.yusry.smartpantrymanager.Activity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -6,6 +6,7 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.yusry.smartpantrymanager.R;
 import com.yusry.smartpantrymanager.database.IngredientDAO;
 import com.yusry.smartpantrymanager.database.PantryDatabaseHelper;
 import com.yusry.smartpantrymanager.models.Ingredient;

@@ -8,7 +8,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "SmartPantry.db"; // File name stored on device
     private static final int DATABASE_VERSION = 1; // version 1
 
-
     // Declaring tables for ingredients, recipes, and ingredients
     public static final String TABLE_INGREDIENTS = "ingredients";
     public static final String TABLE_RECIPES = "recipes";
@@ -56,13 +55,13 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_INGREDIENTS_TABLE);
 
 // Updated error: Added descirption text colum so it matches Recipes.java
-        String CREATE_RECIPES_TABLE = "CREATE TABLE " + TABLE_RECIPES + " (" +
-                COLUMN_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_RECIPE_NAME + " TEXT UNIQUE NOT NULL, " +
+        String CREATE_RECIPES_TABLE = "CREATE TABLE recipes (" +
+                "recipe_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "recipe_name TEXT UNIQUE NOT NULL, " +
                 "description TEXT, " +
                 "method TEXT, " +
-                "ingredient_list TEXT, " +
-                COLUMN_IMAGE_URL + " TEXT)";
+                "ingredient_list TEXT)";
+
 
         /**
          * Creating recipe_ingredient table. To connects the recipes to ingredients

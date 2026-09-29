@@ -12,38 +12,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartPantryManager">
 
-        <activity
-            android:name="MainActivity"
+        <activity android:name=".Activity.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.SmartPantryManager"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <!-- AddEditIngredientActivity declaration -->
-        <activity
-            android:name=".AddEditIngredientActivity"
-            android:theme="@style/Theme.SmartPantryManager"
-            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".Activity.AddEditIngredientActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmartPantryManager"/>
 
         <!-- SuggestedRecipesActivity declaration -->
         <activity
-            android:name=".SuggestedRecipesActivity"
+            android:name=".Activity.SuggestedRecipesActivity"
             android:exported="false"
             android:theme="@style/Theme.SmartPantryManager" />
 
         <!-- RecipeDetailActivity declaration -->
         <activity
-            android:name=".RecipeDetailActivity"
+            android:name=".Activity.RecipeDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.SmartPantryManager" />
 
         <!-- SettingsActivity declaration -->
         <activity
-            android:name=".SettingsActivity"
+            android:name=".Activity.SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.SmartPantryManager" />
 

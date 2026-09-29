@@ -1,4 +1,4 @@
-package com.yusry.smartpantrymanager;
+package com.yusry.smartpantrymanager.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.yusry.smartpantrymanager.R;
 import com.yusry.smartpantrymanager.adapters.RecipeAdapter;
 import com.yusry.smartpantrymanager.database.IngredientDAO;
 import com.yusry.smartpantrymanager.database.PantryDatabaseHelper;

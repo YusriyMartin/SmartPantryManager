@@ -1,5 +1,4 @@
-package com.yusry.smartpantrymanager;
-
+package com.yusry.smartpantrymanager.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,16 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.List;
+import com.yusry.smartpantrymanager.R;
 import com.yusry.smartpantrymanager.database.PantryDatabaseHelper;
 import com.yusry.smartpantrymanager.database.IngredientDAO;
 import com.yusry.smartpantrymanager.models.Ingredient;
 import com.yusry.smartpantrymanager.adapters.IngredientAdapter;
-import com.yusry.smartpantrymanager.AddEditIngredientActivity;
-import com.yusry.smartpantrymanager.SuggestedRecipesActivity;
-import com.yusry.smartpantrymanager.SettingsActivity;
 import com.yusry.smartpantrymanager.database.PreloadedRecipes;
 
 public class MainActivity extends AppCompatActivity {
+
+    private IngredientDAO ingredientDAO;
+    private IngredientAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
         // init db & daos
         PantryDatabaseHelper dbHelper = new PantryDatabaseHelper(this);
-        IngredientDAO ingredientDAO = new IngredientDAO(dbHelper);
+        ingredientDAO = new IngredientDAO(dbHelper);
 
         // init recyclerview & adapter
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<Ingredient> ingredientList = ingredientDAO.getAllIngredients();
-        IngredientAdapter adapter = new IngredientAdapter(ingredientList, ingredientDAO, this);
+        adapter = new IngredientAdapter(ingredientList, ingredientDAO, this);
         recyclerView.setAdapter(adapter);
 
         // add ingredient button
@@ -65,4 +65,12 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<Ingredient> ingredientList = ingredientDAO.getAllIngredients();
+        adapter.updateData(ingredientList);
+    }
+
 }

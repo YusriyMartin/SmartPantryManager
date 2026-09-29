@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.yusry.smartpantrymanager.R;
-import com.yusry.smartpantrymanager.RecipeDetailActivity;
+import com.yusry.smartpantrymanager.Activity.RecipeDetailActivity;
 import com.yusry.smartpantrymanager.models.Recipes;
 import java.util.List;
 // For displaying recipes in RecycleView

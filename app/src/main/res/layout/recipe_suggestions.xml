@@ -14,6 +14,8 @@
         android:background="@android:color/white" />
 
     <!-- title and match counter -->
+
+    <!-- Displays when no recipes match -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +41,6 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <!-- Displays when no recipes match -->
     <LinearLayout
         android:id="@+id/emptyStateContainer"
         android:layout_width="match_parent"

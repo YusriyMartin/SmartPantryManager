@@ -1,4 +1,4 @@
-package com.yusry.smartpantrymanager;
+package com.yusry.smartpantrymanager.Activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import com.yusry.smartpantrymanager.R;
 
 // Settings screen for user prefs
 public class SettingsActivity extends AppCompatActivity {

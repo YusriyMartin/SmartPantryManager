@@ -7,7 +7,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import com.yusry.smartpantrymanager.AddEditIngredientActivity;
+import com.yusry.smartpantrymanager.Activity.AddEditIngredientActivity;
 import com.yusry.smartpantrymanager.R;
 import com.yusry.smartpantrymanager.database.IngredientDAO;
 import com.yusry.smartpantrymanager.models.Ingredient;
@@ -15,7 +15,7 @@ import java.util.List;
 
 // To convert to recycleview. Handles Delete and Edit
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
-    private final List<Ingredient> ingredientList; //Stores ingredient List
+    private List<Ingredient> ingredientList; //Stores ingredient List
     private final IngredientDAO ingredientDAO; // Stores DAO for deleting and updating ingredients
     private final AppCompatActivity activity; //Stores activity context, for launching new activities
 
@@ -76,6 +76,12 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         this.ingredientList.addAll(newIngredientList);
         notifyDataSetChanged(); // Notify if updated
     }
+
+    public void updateData(List<Ingredient> newList) {
+        this.ingredientList = newList;
+        notifyDataSetChanged();
+    }
+
 
     // Conatiner for ingredients
     public static class IngredientViewHolder extends RecyclerView.ViewHolder {
