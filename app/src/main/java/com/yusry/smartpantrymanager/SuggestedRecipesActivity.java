@@ -1,183 +1,120 @@
 package com.yusry.smartpantrymanager;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.yusry.smartpantrymanager.adapters.RecipeAdapter;
-import com.yusry.smartpantrymanager.database.PantryDatabaseHelper;
 import com.yusry.smartpantrymanager.database.IngredientDAO;
+import com.yusry.smartpantrymanager.database.PantryDatabaseHelper;
 import com.yusry.smartpantrymanager.database.RecipeDAO;
 import com.yusry.smartpantrymanager.models.Ingredient;
 import com.yusry.smartpantrymanager.models.Recipes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 // Shows recipes that match what's in the pantry - strict matching only
 public class SuggestedRecipesActivity extends AppCompatActivity {
-    private Toolbar toolbar;
-    private TextView tvMatchCounter;
     private RecyclerView recyclerViewRecipes;
-    private LinearLayout emptyStateContainer;
+    private RelativeLayout emptyStateContainer;
+    private TextView tvMatchCounter;
     private Button btnAddFromRecipes;
-    private IngredientDAO ingredientDAO;
+    private PantryDatabaseHelper dbHelper;
     private RecipeDAO recipeDAO;
-    private List<Recipes> matchedRecipes;
-    private RecipeAdapter recipeAdapter;
+    private IngredientDAO ingredientDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggested_recipes);
-        initializeUI();
-        setupDatabase();
-        setupToolbar();
-        loadMatchedRecipes();
-        setupClickListeners();
-    }
 
-    private void initializeUI() {
-        toolbar = findViewById(R.id.toolbar);
-        tvMatchCounter = findViewById(R.id.tvMatchCounter);
+        // grab UI refs
         recyclerViewRecipes = findViewById(R.id.recyclerViewRecipes);
         emptyStateContainer = findViewById(R.id.emptyStateContainer);
+        tvMatchCounter = findViewById(R.id.tvMatchCounter);
         btnAddFromRecipes = findViewById(R.id.btnAddFromRecipes);
-    }
 
-    private void setupDatabase() {
-        PantryDatabaseHelper dbHelper = new PantryDatabaseHelper(this);
+        // init db and DAOs
+        dbHelper = new PantryDatabaseHelper(this);
+        recipeDAO = new RecipeDAO(dbHelper);
         ingredientDAO = new IngredientDAO(dbHelper);
-        recipeDAO = new RecipeDAO(dbHelper); // FIXED: pass dbHelper, not context
+
+        // setup recycler
+        recyclerViewRecipes.setLayoutManager(new LinearLayoutManager(this));
+
+        // load and filter recipes
+        loadAndFilterRecipes();
+
+        // add button click — go back to add ingredients
+        btnAddFromRecipes.setOnClickListener(v -> {
+            Intent intent = new Intent(SuggestedRecipesActivity.this, AddEditIngredientActivity.class);
+            startActivity(intent);
+        });
     }
-
-    private void setupToolbar() {
-        toolbar.setTitle("Recipes");
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    // grab all recipes, filter by strict matching, update UI
-    private void loadMatchedRecipes() {
-        matchedRecipes = new ArrayList<>();
-
+    private void loadAndFilterRecipes() {
+        // grab all recipes from db
         List<Recipes> allRecipes = recipeDAO.getAllRecipes();
-        List<Ingredient> pantryIngredients = ingredientDAO.getAllIngredients();
-
-        // null check - if db empty, skip loop
-        if (allRecipes == null || allRecipes.isEmpty()) {
-            updateUI();
-            return;
+        if (allRecipes == null) {
+            allRecipes = new ArrayList<>();
         }
 
-        // convert pantry list to map for faster lookups
-        Map<String, Double> pantryMap = buildPantryMap(pantryIngredients);
+        // get pantry ingredients, build map for lookup (name -> qty)
+        List<Ingredient> pantryList = ingredientDAO.getAllIngredients();
+        HashMap<String, Double> pantryMap = new HashMap<>();
+        for (int i = 0; i < pantryList.size(); i++) {
+            Ingredient ing = pantryList.get(i);
+            pantryMap.put(ing.getName().toLowerCase(), ing.getQuantity());
+        }
 
-        // loop thru each recipe and check if we can make it
+        // filter recipes — only show if we can make all ingredients
+        List<Recipes> matchedRecipes = new ArrayList<>();
         for (int i = 0; i < allRecipes.size(); i++) {
             Recipes recipe = allRecipes.get(i);
             if (canMakeRecipe(recipe, pantryMap)) {
                 matchedRecipes.add(recipe);
             }
         }
+        // update UI with match count
+        tvMatchCounter.setText("Hey there chef! You can make " + matchedRecipes.size() + "/20 recipes");
 
-        updateUI();
-    }
-
-    // store pantry ingredients as map (name -> qty) for easy lookup
-    private Map<String, Double> buildPantryMap(List<Ingredient> pantryIngredients) {
-        Map<String, Double> pantryMap = new HashMap<>();
-
-        if (pantryIngredients == null || pantryIngredients.isEmpty()) {
-            return pantryMap;
+        // show empty state or recipes list
+        if (matchedRecipes.isEmpty()) {
+            emptyStateContainer.setVisibility(View.VISIBLE);
+            recyclerViewRecipes.setVisibility(View.GONE);
+        } else {
+            emptyStateContainer.setVisibility(View.GONE);
+            recyclerViewRecipes.setVisibility(View.VISIBLE);
+            RecipeAdapter adapter = new RecipeAdapter(matchedRecipes, this);
+            recyclerViewRecipes.setAdapter(adapter);
         }
-
-        for (int i = 0; i < pantryIngredients.size(); i++) {
-            Ingredient ingredient = pantryIngredients.get(i);
-            String normalizedName = ingredient.getName().toLowerCase().trim();
-            pantryMap.put(normalizedName, ingredient.getQuantity());
-        }
-        return pantryMap;
     }
-
-    // check if all recipe ingredients exist in pantry (name only, ignore qty)
-    private boolean canMakeRecipe(Recipes recipe, Map<String, Double> pantryMap) {
-        String ingredientList = recipe.getIngredientList();
-
-        if (ingredientList == null || ingredientList.isEmpty()) {
+    private boolean canMakeRecipe(Recipes recipe, HashMap<String, Double> pantryMap) {
+        // parse ingredient list from recipe (format: "Tomato (2 kg), Onion (1 piece)")
+        String ingredientStr = recipe.getIngredientList();
+        if (ingredientStr == null || ingredientStr.trim().isEmpty()) {
             return false;
         }
 
-        String[] recipeIngredients = ingredientList.split(",");
-
-        // loop through each ingredient, verify it's in pantry
-        for (int i = 0; i < recipeIngredients.length; i++) {
-            String rawIngredient = recipeIngredients[i].trim();
-
-            // skip empty entries
-            if (rawIngredient.isEmpty()) {
-                continue;
+        // split by comma and check each one
+        String[] ingredients = ingredientStr.split(",");
+        for (int i = 0; i < ingredients.length; i++) {
+            String ingredient = ingredients[i].trim();
+            // extract name only (before the opening parenthesis)
+            String ingredientName = ingredient;
+            if (ingredient.contains("(")) {
+                ingredientName = ingredient.substring(0, ingredient.indexOf("(")).trim();
             }
-
-            // extract just the name (before any opening paren or quantity)
-            String ingredientName = extractIngredientName(rawIngredient).toLowerCase();
-
-            // ingredient missing, recipe fails
-            if (!pantryMap.containsKey(ingredientName)) {
+            // ingredient missing from pantry, recipe fails
+            if (!pantryMap.containsKey(ingredientName.toLowerCase())) {
                 return false;
             }
         }
         return true;
     }
-
-    // extract ingredient name from "Name (qty unit)" format
-    private String extractIngredientName(String rawIngredient) {
-        int parenIndex = rawIngredient.indexOf("(");
-        if (parenIndex > 0) {
-            return rawIngredient.substring(0, parenIndex).trim();
-        }
-        return rawIngredient.trim();
-    }
-
-    private void updateUI() {
-        List<Recipes> allRecipes = recipeDAO.getAllRecipes();
-        int totalRecipes = (allRecipes != null) ? allRecipes.size() : 0;
-        tvMatchCounter.setText(matchedRecipes.size() + "/" + totalRecipes + " matches");
-
-        if (matchedRecipes.isEmpty()) {
-            emptyStateContainer.setVisibility(android.view.View.VISIBLE);
-            recyclerViewRecipes.setVisibility(android.view.View.GONE);
-        } else {
-            emptyStateContainer.setVisibility(android.view.View.GONE);
-            recyclerViewRecipes.setVisibility(android.view.View.VISIBLE);
-            recyclerViewRecipes.setLayoutManager(new LinearLayoutManager(this));
-            recipeAdapter = new RecipeAdapter(matchedRecipes, this);
-            recyclerViewRecipes.setAdapter(recipeAdapter);
-        }
-    }
-
-    private void setupClickListeners() {
-        btnAddFromRecipes.setOnClickListener(v -> {
-            Intent intent = new Intent(SuggestedRecipesActivity.this, AddEditIngredientActivity.class);
-            startActivity(intent);
-        });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
+

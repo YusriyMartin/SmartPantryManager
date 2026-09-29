@@ -20,17 +20,18 @@ public class RecipeDAO {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put("recipe_name", recipe.getName());
-        values.put("description", recipe.getDescription());
-        values.put("ingredient_list", recipe.getIngredientList());
-        values.put("method", recipe.getMethod());
+
+            values.put("recipe_name", recipe.getName());
+            values.put("description", recipe.getDescription());
+            values.put("ingredient_list", recipe.getIngredientList());
+            values.put("instructions", recipe.getMethod());
 
         long recipeId = db.insert("recipes", null, values);
         db.close();
         return recipeId;
     }
 
-    // retrieve all recipes from db
+    // Get all recipes from db
     public List<Recipes> getAllRecipes() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -43,9 +44,9 @@ public class RecipeDAO {
                 int nameIndex = cursor.getColumnIndex("recipe_name");
                 int descriptionIndex = cursor.getColumnIndex("description");
                 int ingredientListIndex = cursor.getColumnIndex("ingredient_list");
-                int methodIndex = cursor.getColumnIndex("method");
-
+                int methodIndex = cursor.getColumnIndex("instructions"); // FIXED: was "method"
                 int id = cursor.getInt(idIndex);
+
                 String name = cursor.getString(nameIndex);
                 String description = cursor.getString(descriptionIndex);
                 String ingredientList = cursor.getString(ingredientListIndex);
@@ -81,7 +82,7 @@ public class RecipeDAO {
             int nameIndex = cursor.getColumnIndex("recipe_name");
             int descriptionIndex = cursor.getColumnIndex("description");
             int ingredientListIndex = cursor.getColumnIndex("ingredient_list");
-            int methodIndex = cursor.getColumnIndex("method");
+            int methodIndex = cursor.getColumnIndex("instructions"); // FIXED: was "method"
 
             int id = cursor.getInt(idIndex);
             String name = cursor.getString(nameIndex);
@@ -110,7 +111,7 @@ public class RecipeDAO {
         values.put("recipe_name", recipe.getName());
         values.put("description", recipe.getDescription());
         values.put("ingredient_list", recipe.getIngredientList());
-        values.put("method", recipe.getMethod());
+        values.put("instructions", recipe.getMethod());
 
         String selection = "recipe_id = ?";
         String[] selectionArgs = {String.valueOf(recipe.getId())};

@@ -22,6 +22,7 @@ public class AddEditIngredientActivity extends AppCompatActivity {
     private Spinner spinnerUnit;
     private Button btnSave;
     private Button btnCancel;
+    private Button btnBack; // go back to pantry list
     private Button btnQuantityMinus; // Decrease qty by 1
     private Button btnQuantityPlus; // Increase qty by 1
 
@@ -34,12 +35,13 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         dbHelper = new PantryDatabaseHelper(this); // Initialize db helper to work with db
         ingredientDAO = new IngredientDAO(dbHelper); // Initialize DAO to save and update ingredients
 
-        // get and store references to ingredient name, quantity, unit, save btn, cancel btn, and qty buttons
+        // get and store references to ingredient name, quantity, unit, save btn, cancel btn, back btn, and qty buttons
         etIngredientName = findViewById(R.id.etIngredientName);
         etQuantity = findViewById(R.id.etQuantity);
         spinnerUnit = findViewById(R.id.spinnerUnit);
         btnSave = findViewById(R.id.btnSave);
         btnCancel = findViewById(R.id.btnCancel);
+        btnBack = findViewById(R.id.btnBack);
         btnQuantityMinus = findViewById(R.id.btnQuantityMinus);
         btnQuantityPlus = findViewById(R.id.btnQuantityPlus);
 
@@ -53,6 +55,7 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         // Button listeners
         btnSave.setOnClickListener(v -> saveIngredient()); // When user clicks save btn, ingredients saved to db
         btnCancel.setOnClickListener(v -> finish()); // When user clicks cancel, exit out
+        btnBack.setOnClickListener(v -> finish()); // When user clicks back, go back to pantry list
         btnQuantityMinus.setOnClickListener(v -> decrementQuantity()); // Decrease qty when minus clicked
         btnQuantityPlus.setOnClickListener(v -> incrementQuantity()); // Increase qty when plus clicked
     }
@@ -61,7 +64,6 @@ public class AddEditIngredientActivity extends AppCompatActivity {
     private void setupUnitSpinner() {
         // Create an array of measurement units
         String[] units = {"kg", "grams", "liters", "ml", "cups", "tablespoons", "teaspoons", "pieces", "lbs"};
-
         // Create an adapter to display units in the spinner dropdown
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, units);
         // Tell the adapter what layout to use when showing the dropdown list

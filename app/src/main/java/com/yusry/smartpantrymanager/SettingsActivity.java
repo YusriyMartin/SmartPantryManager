@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 // Settings screen for user prefs
 public class SettingsActivity extends AppCompatActivity {
@@ -51,8 +53,8 @@ public class SettingsActivity extends AppCompatActivity {
         spinnerUnits.setSelection(unitPosition);
 
         // notification button listeners
-        btnNotifyYes.setOnClickListener(v -> updateNotificationButtons(true));
-        btnNotifyNo.setOnClickListener(v -> updateNotificationButtons(false));
+        btnNotifyYes.setOnClickListener(v -> updateNotificationButtons(true)); // click yes, set true
+        btnNotifyNo.setOnClickListener(v -> updateNotificationButtons(false)); // click no, set false
 
         // save button listener
         btnSaveSettings.setOnClickListener(v -> {
@@ -66,13 +68,23 @@ public class SettingsActivity extends AppCompatActivity {
             editor.putString("unit_preference", selectedUnit);
 
             editor.apply(); // save to SharedPreferences
+            Toast.makeText(this, "Settings saved successfully!", Toast.LENGTH_SHORT).show(); // show confirmation
         });
     }
 
     // toggle notification button states based on selection
     private void updateNotificationButtons(boolean notifEnabled) {
         notificationsEnabled = notifEnabled;
-        btnNotifyYes.setSelected(notifEnabled);
-        btnNotifyNo.setSelected(!notifEnabled);
+
+        // set button colors to show selection
+        if (notifEnabled) {
+            btnNotifyYes.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_green_dark)); // yes highlighted
+            btnNotifyNo.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white)); // no normal
+        } else {
+            btnNotifyYes.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white)); // yes normal
+            btnNotifyNo.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_green_dark)); // no highlighted
+        }
     }
 }
+
+

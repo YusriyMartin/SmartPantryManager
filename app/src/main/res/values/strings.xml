@@ -85,7 +85,16 @@
     <string name="suggested_recipes">Suggested Recipes</string>
     <string name="recipes_match_count">0/20 matches</string>
     <string name="add_more_ingredients">Add More Ingredients</string>
-
+    <string name="ingredient_name">Ingredient Name</string>
+    <string name="hint_banana">e.g. Banana</string>
+    <string name="quantity">Quantity</string>
+    <string name="btn_back">←</string>
+    <string name="btn_minus">−</string>
+    <string name="hint_quantity">0.0</string>
+    <string name="btn_plus">+</string>
+    <string name="unit_measurement">Unit of Measurement</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="autofill_ingredient">Ingredient Name</string>
     <array name="unit_options">
         <item>Kg</item>
         <item>Lbs</item>

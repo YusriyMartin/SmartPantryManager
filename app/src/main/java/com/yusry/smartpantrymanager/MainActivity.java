@@ -1,88 +1,68 @@
 package com.yusry.smartpantrymanager;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.yusry.smartpantrymanager.adapters.IngredientAdapter;
-import com.yusry.smartpantrymanager.database.IngredientDAO;
-import com.yusry.smartpantrymanager.database.PantryDatabaseHelper;
-import com.yusry.smartpantrymanager.models.Ingredient;
-import com.yusry.smartpantrymanager.database.PreloadedRecipes;
-import java.util.ArrayList;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.List;
+import com.yusry.smartpantrymanager.database.PantryDatabaseHelper;
+import com.yusry.smartpantrymanager.database.IngredientDAO;
+import com.yusry.smartpantrymanager.models.Ingredient;
+import com.yusry.smartpantrymanager.adapters.IngredientAdapter;
+import com.yusry.smartpantrymanager.AddEditIngredientActivity;
+import com.yusry.smartpantrymanager.SuggestedRecipesActivity;
+import com.yusry.smartpantrymanager.SettingsActivity;
+import com.yusry.smartpantrymanager.database.PreloadedRecipes;
 
 public class MainActivity extends AppCompatActivity {
-
-    private RecyclerView recyclerView;
-    private IngredientAdapter adapter;
-    private IngredientDAO ingredientDAO;
-    private List<Ingredient> ingredientList;
-    private Button btnAddIngredient;
-    private ImageButton btnEdit, btnAddAction, btnDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // load recipes on first launch
+        // preload recipes on first launch
         PreloadedRecipes.loadRecipesIntoDB(this);
 
-        // init views
-        recyclerView = findViewById(R.id.recyclerView);
-        btnAddIngredient = findViewById(R.id.btnAddIngredient);
-        btnEdit = findViewById(R.id.btnEdit);
-        btnAddAction = findViewById(R.id.btnAddAction);
-        btnDelete = findViewById(R.id.btnDelete);
-
-        // init DAO FIRST, before adapter (adapter needs it)
+        // init db & daos
         PantryDatabaseHelper dbHelper = new PantryDatabaseHelper(this);
-        ingredientDAO = new IngredientDAO(dbHelper);
+        IngredientDAO ingredientDAO = new IngredientDAO(dbHelper);
 
-        // setup RecyclerView
+        // init recyclerview & adapter
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ingredientList = new ArrayList<>();
-        adapter = new IngredientAdapter(ingredientList, ingredientDAO, this);
+        List<Ingredient> ingredientList = ingredientDAO.getAllIngredients();
+        IngredientAdapter adapter = new IngredientAdapter(ingredientList, ingredientDAO, this);
         recyclerView.setAdapter(adapter);
 
-        // load ingredients from db
-        loadIngredients();
-
         // add ingredient button
+        Button btnAddIngredient = findViewById(R.id.btnAddIngredient);
         btnAddIngredient.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddEditIngredientActivity.class);
-            intent.putExtra("ingredient_id", -1);
             startActivity(intent);
         });
 
-        // pill action bar buttons
-        btnAddAction.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AddEditIngredientActivity.class);
-            intent.putExtra("ingredient_id", -1);
-            startActivity(intent);
+        // bottom navigation setup - wire tabs to activities
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+        bottomNav.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_pantry) {
+                // already on pantry, do nothing
+                return true;
+            } else if (itemId == R.id.nav_recipes) {
+                // launch suggested recipes activity
+                startActivity(new Intent(MainActivity.this, SuggestedRecipesActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_settings) {
+                // launch settings activity
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                return true;
+            }
+            return false;
         });
-
-        btnEdit.setOnClickListener(v -> {
-            // edit selected ingredient (can add selection logic later)
-        });
-
-        btnDelete.setOnClickListener(v -> {
-            // delete selected ingredient (can add selection logic later)
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadIngredients(); // refresh list when coming back
-    }
-
-    private void loadIngredients() {
-        ingredientList.clear();
-        ingredientList.addAll(ingredientDAO.getAllIngredients());
-        adapter.notifyDataSetChanged();
     }
 }
