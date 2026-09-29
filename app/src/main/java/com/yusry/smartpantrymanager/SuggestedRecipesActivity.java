@@ -1,4 +1,5 @@
 package com.yusry.smartpantrymanager;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,35 +17,33 @@ import com.yusry.smartpantrymanager.database.RecipeDAO;
 import com.yusry.smartpantrymanager.models.Ingredient;
 import com.yusry.smartpantrymanager.models.Recipes;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-// Suggested recipes based on ingredients in pantry
+// Shows recipes that match what's in the pantry - strict matching only
 public class SuggestedRecipesActivity extends AppCompatActivity {
-    // UI components used to display recipes and match information
     private Toolbar toolbar;
     private TextView tvMatchCounter;
     private RecyclerView recyclerViewRecipes;
     private LinearLayout emptyStateContainer;
     private Button btnAddFromRecipes;
-    // db helper objects to access ingredients and recipes from db
     private IngredientDAO ingredientDAO;
     private RecipeDAO recipeDAO;
-    private List<Recipes> matchedRecipes; // List to store the recipes for strict matching
-    // Adapter to display recipes in the RecyclerView
+    private List<Recipes> matchedRecipes;
     private RecipeAdapter recipeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set the layout for this activity (the XML file we just created)
-        setContentView(R.layout.recipe_suggestions);
-        initializeUI(); // Initialize all UI components
-        setupDatabase(); // Set up db access objects (Date Access Object) to read ingredients and recipes
-        setupToolbar(); // Configure toolbare with title and back button
-        loadMatchedRecipes(); // load and filter recipes based on strict mode
-        setupClickListeners(); // Set up click listeners for buttons
+        setContentView(R.layout.activity_suggested_recipes);
+        initializeUI();
+        setupDatabase();
+        setupToolbar();
+        loadMatchedRecipes();
+        setupClickListeners();
     }
-    // Find all UI components and store as class variables
+
     private void initializeUI() {
         toolbar = findViewById(R.id.toolbar);
         tvMatchCounter = findViewById(R.id.tvMatchCounter);
@@ -52,76 +51,95 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
         emptyStateContainer = findViewById(R.id.emptyStateContainer);
         btnAddFromRecipes = findViewById(R.id.btnAddFromRecipes);
     }
-    // Create db helper and Data Access Object to query ingredients and recipes
+
     private void setupDatabase() {
-        PantryDatabaseHelper dbHelper = new PantryDatabaseHelper(this); // Create db helper
+        PantryDatabaseHelper dbHelper = new PantryDatabaseHelper(this);
         ingredientDAO = new IngredientDAO(dbHelper);
         recipeDAO = new RecipeDAO(this);
     }
 
-    // Configure toolbar to show title + back button
     private void setupToolbar() {
-        toolbar.setTitle("Recipes"); // Set recipes as title in toolbar
+        toolbar.setTitle("Recipes");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
-    // Implementing strict matching logic
+
+    // grab all recipes, filter by strict matching, update UI
     private void loadMatchedRecipes() {
         matchedRecipes = new ArrayList<>();
 
-        List<Recipes> allRecipes = recipeDAO.getAllRecipes(); // Get all recipes from db
-        List<Ingredient> pantryIngredients = ingredientDAO.getAllIngredients(); // Get all ingredients in pantry
+        List<Recipes> allRecipes = recipeDAO.getAllRecipes();
+        List<Ingredient> pantryIngredients = ingredientDAO.getAllIngredients();
 
-        // Check each recipe against what's available in pantry
+        // convert pantry list to map for faster lookups
+        Map<String, Double> pantryMap = buildPantryMap(pantryIngredients);
+
+        // loop thru each recipe and check if we can make it
         for (int i = 0; i < allRecipes.size(); i++) {
             Recipes recipe = allRecipes.get(i);
-            if (canMakeRecipe(recipe, pantryIngredients)) {
+            if (canMakeRecipe(recipe, pantryMap)) {
                 matchedRecipes.add(recipe);
             }
         }
-        // Update the UI based on how many recipes matched
+
         updateUI();
     }
 
-    // Checks if recipe can be made with available ingredients
-    private boolean canMakeRecipe(Recipes recipe, List<Ingredient> pantryIngredients) {
-        String ingredientList = recipe.getIngredientList(); // Get ingreident list from recipe
+    // store pantry ingredients as map (name -> qty) for easy lookup
+    private Map<String, Double> buildPantryMap(List<Ingredient> pantryIngredients) {
+        Map<String, Double> pantryMap = new HashMap<>();
+        for (int i = 0; i < pantryIngredients.size(); i++) {
+            Ingredient ingredient = pantryIngredients.get(i);
+            String normalizedName = ingredient.getName().toLowerCase().trim();
+            pantryMap.put(normalizedName, ingredient.getQuantity());
+        }
+        return pantryMap;
+    }
+
+    // check if all recipe ingredients exist in pantry with enough qty
+    private boolean canMakeRecipe(Recipes recipe, Map<String, Double> pantryMap) {
+        String ingredientList = recipe.getIngredientList();
 
         if (ingredientList == null || ingredientList.isEmpty()) {
             return false;
         }
-        // Split ingredient names string into individual ingredients
+
         String[] recipeIngredients = ingredientList.split(",");
 
-        // Check each ingredient needed to make a recipe
+        // verify each ingredient requirement
         for (int i = 0; i < recipeIngredients.length; i++) {
-            String neededIngredient = recipeIngredients[i].trim().toLowerCase();
-            boolean foundIngredient = false;
+            String ingredient = recipeIngredients[i].trim();
 
-            for (int j = 0; j < pantryIngredients.size(); j++) {
-                Ingredient pantryItem = pantryIngredients.get(j);
-                String pantryItemName = pantryItem.getName().trim().toLowerCase();
-
-                // Check for ingredient match, adding in suffix checks for name variations
-                if (pantryItemName.equals(neededIngredient) ||
-                        pantryItemName.replace("es", "").equals(neededIngredient) ||
-                        neededIngredient.replace("es", "").equals(pantryItemName)) {
-                    foundIngredient = true;
-                    break;
-                }
+            // format: "flour (2)" or "tomato (500g)"
+            int bracketIndex = ingredient.indexOf("(");
+            if (bracketIndex == -1) {
+                return false; // skip malformed entries
             }
-            // If ingredient not found, can't make recipe
-            if (!foundIngredient) {
-                return false;
+
+            String ingredientName = ingredient.substring(0, bracketIndex).trim().toLowerCase();
+            String quantityStr = ingredient.substring(bracketIndex + 1, ingredient.lastIndexOf(")")).trim();
+
+            // extract number from qty string
+            double requiredQty = 0;
+            try {
+                String[] parts = quantityStr.split("\\s+");
+                requiredQty = Double.parseDouble(parts[0]);
+            } catch (Exception e) {
+                return false; // couldnt parse, skip recipe
+            }
+
+            // pantry has enough of this ingredient?
+            Double pantryQty = pantryMap.get(ingredientName);
+            if (pantryQty == null || pantryQty < requiredQty) {
+                return false; // nope, missing or insuficient
             }
         }
-        // returns if ingredients to make recipe is available
-        return true;
+
+        return true; // all good
     }
 
-    // Update UI based on recipe matching
     private void updateUI() {
         int totalRecipes = recipeDAO.getAllRecipes().size();
         tvMatchCounter.setText(matchedRecipes.size() + "/" + totalRecipes + " matches");
@@ -133,20 +151,18 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
             emptyStateContainer.setVisibility(android.view.View.GONE);
             recyclerViewRecipes.setVisibility(android.view.View.VISIBLE);
             recyclerViewRecipes.setLayoutManager(new LinearLayoutManager(this));
-            // Create an adapter to display the matched recipes
             recipeAdapter = new RecipeAdapter(matchedRecipes, this);
             recyclerViewRecipes.setAdapter(recipeAdapter);
         }
     }
 
-    // Set up click listeners for buttons
     private void setupClickListeners() {
         btnAddFromRecipes.setOnClickListener(v -> {
             Intent intent = new Intent(SuggestedRecipesActivity.this, AddEditIngredientActivity.class);
             startActivity(intent);
         });
     }
-    // back button click functionality in toolbar
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
