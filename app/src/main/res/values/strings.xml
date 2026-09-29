@@ -82,5 +82,10 @@
     <string name="suggested_recipes">Suggested Recipes</string>
     <string name="recipes_match_count">0/20 matches</string>
     <string name="add_more_ingredients">Add More Ingredients</string>
+    <array name="unit_options">
+        <item>Kg</item>
+        <item>Lbs</item>
+    </array>
+
 </resources>
 
