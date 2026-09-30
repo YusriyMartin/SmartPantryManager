@@ -15,12 +15,25 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.VH
         this.list = newList;
         notifyDataSetChanged();
     }
-    @Override public VH onCreateViewHolder(ViewGroup p, int t){ return new VH(LayoutInflater.from(p.getContext()).inflate(R.layout.item_ingredient,p,false)); }
-    @Override public void onBindViewHolder(VH h, int pos){
+    @Override
+    public VH onCreateViewHolder(ViewGroup p, int t){
+        return new VH(LayoutInflater.from(p.getContext()).inflate(R.layout.item_ingredient,p,false)); }
+
+    @Override
+    public void onBindViewHolder(VH h, int pos){
         Ingredient i=list.get(pos);
-        h.name.setText(i.name); h.qty.setText(String.valueOf(i.quantity)); h.unit.setText(i.unit);
-        if(showExpiry){ h.expiry.setVisibility(View.VISIBLE); h.expiry.setText("Use by "+i.expiryDate); } else h.expiry.setVisibility(View.GONE);
-        h.itemView.setOnClickListener(v->{ Intent intent=new Intent(ctx, AddEditActivity.class); intent.putExtra("id", i.id); ctx.startActivity(intent); });
+        h.name.setText(i.name);
+        h.qty.setText(String.valueOf(i.quantity));
+        h.unit.setText(i.unit);
+        if(showExpiry){ h.expiry.setVisibility(View.VISIBLE);
+            h.expiry.setText("Use by "+i.expiryDate);
+        } else
+            h.expiry.setVisibility(View.GONE);
+        h.itemView.setOnClickListener(v->
+        { Intent intent=new Intent(ctx,
+                AddEditActivity.class);
+            intent.putExtra("id", i.id);
+            ctx.startActivity(intent); });
     }
     @Override public int getItemCount(){ return list.size(); }
 }
