@@ -16,10 +16,12 @@ public class Ingredient {
         this.expiryDate = expiryDate;
     }
 
+    // Handles trimming of ingredient to macth strcit mode requiremets
     public static String normalize(String s){
-        if(s==null) return "";
-        s = s.toLowerCase().trim();
-        if(s.endsWith("oes")) return s.substring(0, s.length()-2); // tomatoes -> tomato
+
+        if(s==null) return " ";
+        s = s.toLowerCase().trim(); // Makes string lowercase
+        if(s.endsWith("oes")) return s.substring(0, s.length()-2); // Checks for suffixes and accepts if reasonable, tomatoes to tomato
         if(s.endsWith("s") && !s.endsWith("ss") && s.length()>2) return s.substring(0, s.length()-1);
         return s;
     }
