@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ingredients:"
+        android:text="@string/ingredients_label"
         android:textColor="#4CAF50"
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Method:"
+        android:text="@string/method_label"
         android:textColor="#4CAF50"
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
@@ -44,5 +44,5 @@
         android:layout_width="match_parent"
         android:layout_height="47dp"
         android:layout_marginTop="24dp"
-        android:text="Back to Recipes" />
+        android:text="@string/back_to_recipes" />
 </LinearLayout>

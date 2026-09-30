@@ -6,7 +6,15 @@ import java.util.List;
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.VH> {
     Context ctx; List<Ingredient> list; boolean showExpiry;
     public IngredientAdapter(Context ctx, List<Ingredient> list, boolean showExpiry){ this.ctx=ctx; this.list=list; this.showExpiry=showExpiry; }
-    public static class VH extends RecyclerView.ViewHolder{ TextView name,qty,unit,expiry; public VH(View v){ super(v); name=v.findViewById(R.id.txtName); qty=v.findViewById(R.id.txtQty); unit=v.findViewById(R.id.txtUnit); expiry=v.findViewById(R.id.txtExpiry); } }
+    public static class VH extends RecyclerView.ViewHolder{ TextView name,qty,unit,expiry;
+        public VH(View v){ super(v); name=v.findViewById(R.id.txtName);
+            qty=v.findViewById(R.id.txtQty);
+            unit=v.findViewById(R.id.txtUnit);
+            expiry=v.findViewById(R.id.txtExpiry); } }
+    public void setIngredients(List<Ingredient> newList) {
+        this.list = newList;
+        notifyDataSetChanged();
+    }
     @Override public VH onCreateViewHolder(ViewGroup p, int t){ return new VH(LayoutInflater.from(p.getContext()).inflate(R.layout.item_ingredient,p,false)); }
     @Override public void onBindViewHolder(VH h, int pos){
         Ingredient i=list.get(pos);

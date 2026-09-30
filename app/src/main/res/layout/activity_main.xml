@@ -19,19 +19,23 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
         <ImageView android:id="@+id/btnSettings"
-            android:layout_width="24dp" android:layout_height="24dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@android:drawable/ic_menu_preferences"/>
     </LinearLayout>
     <Button
         android:id="@+id/btnRecipes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:text="Go to Recipes"
+        android:layout_height="wrap_content"
+        android:text="Go to Recipes"
         android:layout_margin="12dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Ingredients" android:textColor="#FFF"
-        android:textStyle="bold" android:textSize="20sp"
+        android:text="My Ingredients"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:textSize="20sp"
         android:layout_margin="12dp"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvIngredients"
@@ -43,10 +47,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Hey there chef! It looks like your pantry is empty. Let's add some ingredients"
-        android:textColor="#4CAF50" android:gravity="center" android:padding="24dp" android:visibility="gone"/>
+        android:textColor="#4CAF50"
+        android:gravity="center"
+        android:padding="24dp"
+        android:visibility="gone"/>
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:text="+ Add Ingredients"
-        android:backgroundTint="#2E7D32" android:layout_margin="12dp"/>
+        android:layout_height="wrap_content"
+        android:text="+ Add Ingredients"
+        android:backgroundTint="#2E7D32"
+        android:layout_margin="12dp"/>
 </LinearLayout>

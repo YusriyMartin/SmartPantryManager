@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SETTINGS"
+        android:text="@string/settings"
         android:textColor="#FFF"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notify me when items are expiring soon?"
+        android:text="@string/notify_me_when_items_are_expiring_soon"
         android:textColor="#FFF"
         android:layout_marginTop="24dp"/>
     <RadioGroup
@@ -29,21 +29,21 @@
             android:id="@+id/rbYes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Yes"
+            android:text="@string/yes"
             android:textColor="#FFF"
             android:checked="true"/>
         <RadioButton
             android:id="@+id/rbNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No"
+            android:text="@string/no"
             android:textColor="#FFF"
             android:layout_marginStart="24dp"/>
     </RadioGroup>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Unit preference:"
+        android:text="@string/unit_preference"
         android:textColor="#FFF"
         android:layout_marginTop="24dp"/>
     <Spinner
@@ -55,7 +55,7 @@
         android:id="@+id/btnSaveSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/save"
         android:backgroundTint="#2E7D32"
         android:layout_marginTop="32dp"/>
 </LinearLayout>

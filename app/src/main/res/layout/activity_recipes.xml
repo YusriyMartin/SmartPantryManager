@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hey there chef! Here's a look at all the recipes you can cook today, based on your available ingredients"
+        android:text="@string/hey_there_chef_here_s_a_look_at_all_the_recipes_you_can_cook_today_based_on_your_available_ingredients"
         android:textColor="#4CAF50"
         android:padding="12dp"
         android:background="@drawable/green_border"/>
@@ -22,7 +22,7 @@
         android:id="@+id/txtNoMatch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No recipes match your pantry yet, add more ingredients"
+        android:text="@string/no_recipes_match_your_pantry_yet_add_more_ingredients"
         android:textColor="#FFF"
         android:gravity="center"
         android:visibility="gone"
@@ -30,5 +30,5 @@
     <Button
         android:id="@+id/btnBack"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:text="Back to HOME"/>
+        android:layout_height="wrap_content" android:text="@string/back_to_home"/>
 </LinearLayout>

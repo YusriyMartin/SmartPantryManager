@@ -43,4 +43,18 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <!--activity_detail-->
+    <string name="ingredients_label">Ingredients:</string>
+    <string name="method_label">Method:</string>
+    <string name="back_to_recipes">Back to Recipes</string>
+    <string name="hey_there_chef_here_s_a_look_at_all_the_recipes_you_can_cook_today_based_on_your_available_ingredients">Hey there chef! Here\'s a look at all the recipes you can cook today, based on your available ingredients</string>
+    <string name="no_recipes_match_your_pantry_yet_add_more_ingredients">No recipes match your pantry yet, add more ingredients</string>
+    <string name="back_to_home">Back to HOME</string>
+    <string name="settings">SETTINGS</string>
+    <string name="notify_me_when_items_are_expiring_soon">Notify me when items are expiring soon?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="unit_preference">Unit preference:</string>
+    <string name="save">Save</string>
+
 </resources>

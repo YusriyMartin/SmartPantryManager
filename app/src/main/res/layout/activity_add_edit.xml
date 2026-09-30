@@ -8,13 +8,15 @@
     <EditText
         android:id="@+id/edtName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:hint="Ingredient Name"
+        android:layout_height="wrap_content"
+        android:hint="Ingredient Name"
         android:textColor="#FFF"
         android:textColorHint="#AAA"/>
     <EditText
         android:id="@+id/edtQty"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:hint="Quantity"
+        android:layout_height="wrap_content"
+        android:hint="Quantity"
         android:inputType="numberDecimal"
         android:textColor="#FFF"/>
     <Spinner
