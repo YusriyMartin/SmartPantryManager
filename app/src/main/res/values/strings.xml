@@ -56,5 +56,6 @@
     <string name="no">No</string>
     <string name="unit_preference">Unit preference:</string>
     <string name="save">Save</string>
+    <string name="Settings">Settings</string>
 
 </resources>

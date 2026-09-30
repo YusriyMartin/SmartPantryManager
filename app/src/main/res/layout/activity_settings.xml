@@ -1,61 +1,88 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#121212"
     android:padding="16dp">
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settings"
-        android:textColor="#FFF"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="center"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/notify_me_when_items_are_expiring_soon"
-        android:textColor="#FFF"
-        android:layout_marginTop="24dp"/>
-    <RadioGroup
-        android:id="@+id/rgNotify"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
-        <RadioButton
-            android:id="@+id/rbYes"
-            android:layout_width="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/yes"
+            android:text="@string/Settings"
             android:textColor="#FFF"
-            android:checked="true"/>
-        <RadioButton
-            android:id="@+id/rbNo"
-            android:layout_width="wrap_content"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/no"
-            android:textColor="#FFF"
-            android:layout_marginStart="24dp"/>
-    </RadioGroup>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/unit_preference"
-        android:textColor="#FFF"
-        android:layout_marginTop="24dp"/>
-    <Spinner
-        android:id="@+id/spinnerPref"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"/>
-    <Button
-        android:id="@+id/btnSaveSettings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        android:backgroundTint="#2E7D32"
-        android:layout_marginTop="32dp"/>
-</LinearLayout>
+            android:layout_marginTop="16dp"
+            android:text="Default Preference:"
+            android:textColor="#4CAF50"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <Spinner
+            android:id="@+id/spinnerPref"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Enable notifications?"
+            android:textColor="#4CAF50"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbYes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:text="Yes"
+                android:textColor="#FFF"
+                tools:ignore="HardcodedText" />
+
+            <RadioButton
+                android:id="@+id/rbNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:layout_marginStart="16dp"
+                android:text="No"
+                android:textColor="#FFF"
+                tools:ignore="HardcodedText" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnSaveSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="#388E3C"
+            android:text="Save Settings"
+            android:textColor="#FFFFFF"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+</ScrollView>
