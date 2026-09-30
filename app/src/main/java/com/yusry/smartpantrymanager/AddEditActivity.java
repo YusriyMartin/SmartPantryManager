@@ -23,9 +23,8 @@ public class AddEditActivity extends AppCompatActivity {
         String pref = p.getString("unit_pref","Kg");
 
         String[] units = new String[]{"Select unit", "Kg", "g", "Lbs", "cups", "pcs"};
-        ArrayAdapter<String> ad = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, units);
-        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> ad = new ArrayAdapter<>(this, R.layout.spinner_item, units);
+        ad.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
         spinner.setAdapter(ad);
 
@@ -33,7 +32,6 @@ public class AddEditActivity extends AppCompatActivity {
         int pos = ad.getPosition(pref);
         if(pos >= 0) spinner.setSelection(pos);
         else spinner.setSelection(0); // Display hint: Select unot
-
 
         editId = getIntent().getIntExtra("id",-1);
         edtExpiry.setOnClickListener(v->{ Calendar c=Calendar.getInstance();
@@ -70,7 +68,7 @@ public class AddEditActivity extends AppCompatActivity {
             String exp = edtExpiry.getText().toString().trim();
 
             if(name.isEmpty()||qtyStr.isEmpty()||exp.isEmpty()){
-                Toast.makeText(this,"Fill all field.",Toast.LENGTH_SHORT).show(); return; }
+                Toast.makeText(this,"Hey chef! You need to add more than that...",Toast.LENGTH_SHORT).show(); return; }
 
             double qty = Double.parseDouble(qtyStr);
             Executors.newSingleThreadExecutor().execute(()->{

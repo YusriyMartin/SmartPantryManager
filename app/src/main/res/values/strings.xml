@@ -58,5 +58,12 @@
     <string name="save">Save</string>
     <string name="Settings">Settings</string>
     <string name="unit_of_measure">Unit of Measure</string>
+    <string name="smart_pantry_manager">Smart Pantry Manager</string>
+    <string name="home">HOME</string>
+    <string name="go_to_recipes">Go to Recipes</string>
+    <string name="my_ingredients">My Ingredients</string>
+    <string name="hey_there_chef_it_looks_like_your_pantry_is_empty_let_s_add_some_ingredients">Hey there chef! It looks like your pantry is empty. Let\'s add some ingredients</string>
+    <string name="add_ingredients">+ Add Ingredients</string>
+    <string name="check_pantry_for_ingredients">Check pantry for ingredients</string>
 
 </resources>

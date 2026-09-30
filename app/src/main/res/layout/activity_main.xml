@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,25 +14,30 @@
         <TextView android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Smart Pantry Manager"
+            android:text="@string/home"
             android:textColor="#FFF"
             android:textStyle="bold"
             android:textSize="18sp"/>
-        <ImageView android:id="@+id/btnSettings"
+
+        <ImageView
+            android:id="@+id/btnSettings"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@android:drawable/ic_menu_preferences"/>
+            android:src="@drawable/ic_settings"
+            app:tint="#FFFFFF"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
     </LinearLayout>
     <Button
         android:id="@+id/btnRecipes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go to Recipes"
+        android:text="@string/go_to_recipes"
         android:layout_margin="12dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Ingredients"
+        android:text="@string/my_ingredients"
         android:textColor="#FFF"
         android:textStyle="bold"
         android:textSize="20sp"
@@ -46,7 +51,7 @@
         android:id="@+id/txtEmpty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hey there chef! It looks like your pantry is empty. Let's add some ingredients"
+        android:text="@string/hey_there_chef_it_looks_like_your_pantry_is_empty_let_s_add_some_ingredients"
         android:textColor="#4CAF50"
         android:gravity="center"
         android:padding="24dp"
@@ -55,7 +60,7 @@
         android:id="@+id/btnAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="+ Add Ingredients"
+        android:text="@string/add_ingredients"
         android:backgroundTint="#2E7D32"
         android:layout_margin="12dp"/>
 </LinearLayout>
