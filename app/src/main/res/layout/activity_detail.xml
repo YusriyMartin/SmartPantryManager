@@ -1,10 +1,13 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#121212"
     android:padding="16dp">
+
+    <!-- Recipe name title -->
     <TextView
         android:id="@+id/txtDetailName"
         android:layout_width="match_parent"
@@ -12,6 +15,8 @@
         android:textColor="#FFF"
         android:textSize="22sp"
         android:textStyle="bold"/>
+
+    <!-- Ingredients header -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,12 +24,16 @@
         android:textColor="#4CAF50"
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
+
+    <!-- Ingredients list -->
     <TextView
         android:id="@+id/txtDetailIngredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#FFF"
         android:layout_marginTop="8dp"/>
+
+    <!-- Method section header -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,6 +41,8 @@
         android:textColor="#4CAF50"
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
+
+    <!-- Cooking instructions -->
     <TextView
         android:id="@+id/txtDetailMethod"
         android:layout_width="match_parent"
@@ -39,12 +50,15 @@
         android:textColor="#FFF"
         android:layout_marginTop="8dp"/>
 
+    <!-- Back button -->
     <Button
         android:id="@+id/btnBackRecipes"
         android:layout_width="match_parent"
         android:layout_height="47dp"
         android:layout_marginTop="24dp"
         android:text="@string/back_to_recipes" />
+
+    <!-- Pantry check result message -->
     <TextView
         android:id="@+id/txtCheckResult"
         android:layout_width="match_parent"
@@ -53,6 +67,7 @@
         android:textSize="16sp"
         android:textColor="#FFFFFF" />
 
+    <!-- Check pantry button (green) -->
     <Button
         android:id="@+id/btnCheckPantry"
         android:layout_width="match_parent"
@@ -61,4 +76,16 @@
         android:text="@string/check_pantry_for_ingredients"
         android:backgroundTint="#2E7D32"
         android:textColor="#FFFFFF" />
+
+    <!-- bottom navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
+        android:background="#000"
+        android:textColor="#FFF" />
+
 </LinearLayout>

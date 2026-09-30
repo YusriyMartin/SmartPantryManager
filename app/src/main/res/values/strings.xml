@@ -50,7 +50,6 @@
     <string name="hey_there_chef_here_s_a_look_at_all_the_recipes_you_can_cook_today_based_on_your_available_ingredients">Hey there chef! Here\'s a look at all the recipes you can cook today, based on your available ingredients</string>
     <string name="no_recipes_match_your_pantry_yet_add_more_ingredients">No recipes match your pantry yet, add more ingredients</string>
     <string name="back_to_home">Back to HOME</string>
-    <string name="settings">SETTINGS</string>
     <string name="notify_me_when_items_are_expiring_soon">Notify me when items are expiring soon?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -59,11 +58,31 @@
     <string name="Settings">Settings</string>
     <string name="unit_of_measure">Unit of Measure</string>
     <string name="smart_pantry_manager">Smart Pantry Manager</string>
-    <string name="home">HOME</string>
+    <string name="check_pantry_for_ingredients">Check pantry for ingredients</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_recipes">Recipes</string>
+    <string name="nav_all">All Recipes</string>
+    <string name="home">Home</string>
+    <string name="settings">Settings</string>
     <string name="go_to_recipes">Go to Recipes</string>
     <string name="my_ingredients">My Ingredients</string>
-    <string name="hey_there_chef_it_looks_like_your_pantry_is_empty_let_s_add_some_ingredients">Hey there chef! It looks like your pantry is empty. Let\'s add some ingredients</string>
-    <string name="add_ingredients">+ Add Ingredients</string>
-    <string name="check_pantry_for_ingredients">Check pantry for ingredients</string>
+    <string name="add_ingredients">Add Ingredients</string>
+    <string name="recipes">Recipes</string>
+    <string name="hey_there_chef_it_looks_like_your_pantry_is_empty_let_s_add_some_ingredients">
+        <string name="change_unit_of_measure">Change Unit of Measure?</string>
+    <string name="see_expiry_dates">See expiry dates?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="save_settings">Save Settings</string>
+    Hey there chef, it looks like your pantry is empty. Let’s add some ingredients!
+</string>
+    <string name="empty_pantry_message">It looks like your pantry is empty. Click the plus button below to add ingredients</string>
+    <string name="tap_check_pantry">Tap "Check Pantry" to see if you have all ingredients</string>
+    <string name="message_text" />
+    <string name="oops_chef_no_recipes_match">Oops chef! It looks like no recipes match your pantry. Let\'s add some more ingredients</string>
+    <string name="change_unit_preference">Change Unit Preference</string>
+    <string name="save_settings">Save Settings</string>
+    <string name="see_expiry_dates" />
+    <string name="change_unit_of_measure" />
 
 </resources>

@@ -1,6 +1,13 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<!--For check pantry-->
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/txtCheckResult"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:textSize="16sp"
-    android:textColor="#FFFFFF" />
+    android:padding="16dp"
+    android:textSize="14sp"
+    android:textColor="#FFFFFF"
+    android:background="#1F1F1F"
+    android:gravity="center"
+    android:text="@string/tap_check_pantry" />

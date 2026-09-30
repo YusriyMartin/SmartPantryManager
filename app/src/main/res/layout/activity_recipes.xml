@@ -1,10 +1,12 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#121212"
     android:padding="12dp">
+
+    <!-- Weclome message green border -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,12 +14,16 @@
         android:textColor="#4CAF50"
         android:padding="12dp"
         android:background="@drawable/green_border"/>
+
+    <!-- Recipe list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRecipes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="12dp"/>
+
+    <!-- Shown when no recipes match pantry -->
     <TextView
         android:id="@+id/txtNoMatch"
         android:layout_width="match_parent"
@@ -27,8 +33,12 @@
         android:gravity="center"
         android:visibility="gone"
         android:padding="24dp"/>
+
+    <!-- Back button -->
     <Button
         android:id="@+id/btnBack"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:text="@string/back_to_home"/>
+        android:layout_height="wrap_content"
+        android:text="@string/back_to_home"/>
+
 </LinearLayout>

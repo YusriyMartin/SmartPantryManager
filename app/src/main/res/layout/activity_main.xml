@@ -5,13 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#121212">
+
+    <!-- Header with settings icon -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="#000"
         android:padding="12dp">
-        <TextView android:layout_width="0dp"
+
+        <TextView
+            android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/home"
@@ -19,21 +23,27 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
 
+        <!-- Settings gear icon -->
         <ImageView
             android:id="@+id/btnSettings"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_settings"
             app:tint="#FFFFFF"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
-
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/settings"/>
     </LinearLayout>
+
+    <!-- Go to recipes -->
     <Button
         android:id="@+id/btnRecipes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/go_to_recipes"
         android:layout_margin="12dp"/>
+
+
+    <!--Ingredients section-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,11 +52,15 @@
         android:textStyle="bold"
         android:textSize="20sp"
         android:layout_margin="12dp"/>
+
+    <!--Ingredient list view -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvIngredients"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
+
+    <!--Shown when pantry is empty -->
     <TextView
         android:id="@+id/txtEmpty"
         android:layout_width="match_parent"
@@ -56,11 +70,48 @@
         android:gravity="center"
         android:padding="24dp"
         android:visibility="gone"/>
-    <Button
-        android:id="@+id/btnAdd"
+
+    <!-- Empty state for recipes - shows when no recipes match pantry -->
+    <TextView
+        android:id="@+id/tvEmptyState"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_ingredients"
-        android:backgroundTint="#2E7D32"
-        android:layout_margin="12dp"/>
+        android:text="@string/oops_chef_no_recipes_match"
+        android:textColor="#FF9800"
+        android:gravity="center"
+        android:padding="24dp"
+        android:textSize="16sp"
+        android:visibility="gone"/>
+
+    <!--Bottom action buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_margin="12dp">
+
+        <!-- Add ingredient button  - dark green  -->
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add_ingredients"
+            android:backgroundTint="#2E7D32"
+            android:textColor="#FFF"/>
+
+        <!-- Recipes shortcut button - dark green -->
+        <Button
+            android:id="@+id/btnRecipesBottom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/recipes"
+            android:backgroundTint="#2E7D32"
+            android:textColor="#FFF"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
 </LinearLayout>
+
